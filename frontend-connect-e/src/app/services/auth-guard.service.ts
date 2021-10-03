@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
              
                   resolve(false);
       
-                  this.router.navigate(['/component/auth/login']);
+                  this.router.navigate(['/components/auth/login']);
                 
               });
               
