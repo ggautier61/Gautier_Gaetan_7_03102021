@@ -15,13 +15,13 @@ export class AuthGuardService implements CanActivate {
     return new Promise (
         (resolve, reject) => {  
           
-            if(this._authService.isAuth) {
-              console.log(this._authService.isAuth);
+            if(this._authService.isAuth$) {
+              console.log(this._authService.isAuth$);
               resolve(true);
             } else {
-              console.log(this._authService.isAuth);
+              console.log(this._authService.isAuth$);
               resolve(false);
-              this.router.navigate(['/login']);
+              this.router.navigate(['']);
             }   
     });
   }

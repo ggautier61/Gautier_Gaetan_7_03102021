@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <mat-card class="card">
+                <div class="full-height">
+                    <mat-card-header>
+                        <mat-card-title>Création d'un nouveau compte utlisateur</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col">
+                                <form [formGroup]="SignUpForm" novalidate>
+                                    <div fxLayout="column" class="" fxLayoutAlign="space-between stretch">
+                                        <mat-form-field class="input-full-width">
+                                            <input matInput type="text" formControlName="lastname" placeholder="Entrer votre nom" required>
+                                            <mat-error *ngIf="SignUpForm.get('lastname')?.hasError('required')"></mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="input-full-width">
+                                            <input matInput type="text" formControlName="firstname" placeholder="Entrer votre prénom" required>
+                                            <mat-error *ngIf="SignUpForm.get('firstname')?.hasError('required')"></mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="input-full-width">
+                                            <input class="form-control" type="email" matInput placeholder="Entrer votre Email" formControlName="email" required>
+                                            <mat-error *ngIf="SignUpForm.get('email')?.hasError('required')"></mat-error>
+                                            <mat-error *ngIf="SignUpForm.get('email')?.hasError('email')">
+                                                Adresse email non valide
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field class="input-full-width">
+                                            <input matInput type="password" formControlName="password" placeholder="Entrer un mot de passe" required>
+                                            <mat-error *ngIf="SignUpForm.get('password')?.hasError('required')"></mat-error>
+                                            <mat-error *ngIf="SignUpForm.get('password')?.hasError('pattern')">
+                                                le mot de passe doit contenir au moins 6 caractères dont une lettre et un chiffre
+                                            </mat-error>
+                                        </mat-form-field>
+                                        
+                                    </div>        
+                                </form>
+                            </div>
+                        </div>
+                        
+                    </mat-card-content>
+                </div>
+            
+                <mat-card-actions>
+                    <button mat-stroked-button (click)="onSignUp()" [disabled]="!SignUpForm.valid">Créer Compte</button>
+                </mat-card-actions>
+            </mat-card>
+            <div style="padding: 5px; font-size: 12px;">Déjà un compte ? 
+                <a routerLink="/login">Identifiez-vous</a>                
+            </div>
+        </div>
+    </div>
+</div>

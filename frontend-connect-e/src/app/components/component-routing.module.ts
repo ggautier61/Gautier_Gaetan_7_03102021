@@ -1,25 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuardService } from '../services/auth-guard.service';
-import { HomeComponent } from './home/home.component';
-
-import { LoginComponent } from './login/login.component';
+import { MyaccountComponent } from './auth/myaccount/myaccount.component';
+import { NewsFeedComponent } from './news-feed/news-feed.component';
 
 
 const routes: Routes = [
   {
     path: '',
 		children: [
-      { path: 'login', component: LoginComponent	},
-      { path: 'home', component: HomeComponent }
+      { path: 'news-feed', component: NewsFeedComponent	},
+      { path: 'myaccount', component: MyaccountComponent	}
 		]
-  },
-  
-  
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class ComponentRoutingModule { }
