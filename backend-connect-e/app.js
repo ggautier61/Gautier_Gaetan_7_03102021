@@ -27,12 +27,16 @@ const con = mysql.createConnection({
  });
 
   con.connect(function(err) {
-   if (err) throw err;
-   console.log("Connecté à la base de données MySQL!");
-   con.query("SELECT eleves.id as 'eleve_id', eleves.nom as 'eleve_nom', eleves.cours_id, cours.nom as 'cours_nom', cours.date as 'cours_date' FROM eleves JOIN cours on eleves.cours_id = cours.id", function (err, result) {
-       if (err) throw err;
-       console.log(result);
-     });
+   if (err) {
+    throw err
+   } else {
+    console.log("Connecté à la base de données MySQL!");
+   }
+   
+  //  con.query("SELECT eleves.id as 'eleve_id', eleves.nom as 'eleve_nom', eleves.cours_id, cours.nom as 'cours_nom', cours.date as 'cours_date' FROM eleves JOIN cours on eleves.cours_id = cours.id", function (err, result) {
+  //      if (err) throw err;
+  //      console.log(result);
+  //    });
  });
 
 //paramétrage des headers pour CORS
@@ -51,7 +55,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use(express.static('images'));
 
 //configuration des routes de bases
-app.use('/api/sauces', sauceRoutes);
+// app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;

@@ -8,9 +8,9 @@
     color: black;
   }
   
-  .tittle {
-    display: flex;
-  }
+  // .tittle {
+  //   display: flex;
+  // }
   
   .input-full-width {
     width: 100%;
@@ -29,4 +29,8 @@
   .container {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    justify-content: center;
   }
+
+ 

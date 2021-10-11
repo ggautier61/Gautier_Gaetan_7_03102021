@@ -1,0 +1,19 @@
+#header, #footer {
+    position: relative;
+    height: 4rem;
+}
+
+#footer {
+    position: absolute;
+    height: 4rem;
+    bottom: 0;
+    width: 100%;
+}
+
+#content {
+    position: absolute;
+    top: 4rem;
+    bottom: 4rem;
+    right: 0;
+    left: 0;
+}
