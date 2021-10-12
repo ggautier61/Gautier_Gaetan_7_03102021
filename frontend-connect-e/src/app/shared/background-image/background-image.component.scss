@@ -2,14 +2,14 @@
 //     position: relative;
 // }
 
-// .background-image::after {
+// .background-image::before {
 
 //     content:"";
-//     background-image: url(../images/Groupomania.webp);
+//     background-image: url(../../components/images/Groupomania.webp);
 //     background-repeat:no-repeat;
-//     background-attachment:fixed;
+//     // background-attachment:fixed;
 //     background-size: cover;
-//     position: absolute; 
+//     // position: absolute; 
 //     top: 0;
 //     left: 0;
 //     right: 0;

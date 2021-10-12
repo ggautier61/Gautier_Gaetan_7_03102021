@@ -1,6 +1,7 @@
 export class User {
+    _id: string = '';
     lastname: string = '';
-    fisttname: string = '';
+    firstname: string = '';
     email: string = '';
-
+    avatar: string = '';
 }

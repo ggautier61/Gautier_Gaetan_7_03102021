@@ -5,3 +5,22 @@
 #logo {
     max-width: 8em;
 }
+
+li {
+    border-radius: 15px;
+    background-color: white;
+    height: 30px;
+    width: 30px;
+    margin-right: 20px;
+}
+
+a {
+    position: relative;
+}
+
+.center-icon {
+    position: absolute;
+    left: 3px;
+    line-height: 15px;
+    color: black;
+}

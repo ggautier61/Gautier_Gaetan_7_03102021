@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-6">
+        <div class="col" style="max-width: 600px;">
             <mat-card class="card">
                 <mat-card-header>
                     <mat-card-title class="title">
@@ -11,14 +11,6 @@
                     <div class="row">
                         <div class="col" >
                             <form [formGroup]="signInForm" autocomplete="off" novalidate>
-                                <!-- <div>
-                                    <p *ngIf="errorMessage.length > 0" class="text-danger">
-                                        {{errorMessage}}
-                                    </p>
-                                    <p *ngIf="error.message.length > 0" class="text-danger">
-                                        {{error.message}}
-                                    </p>
-                                </div> -->
                                 <mat-form-field class="input-full-width">
                                     <input matInput type="email" formControlName="email" placeholder="Entrer une adresse email" required>
                                     <mat-hint *ngIf="!emailInput"></mat-hint>

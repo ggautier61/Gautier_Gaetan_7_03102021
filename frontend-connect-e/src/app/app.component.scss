@@ -1,19 +1,41 @@
 #header, #footer {
-    position: relative;
     height: 4rem;
+    position: relative;
 }
 
-#footer {
-    position: absolute;
-    height: 4rem;
+
+.background-image {
+
+    // content:"";
+    background-image: url(../app/components/images/Groupomania.webp);
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+    background-size: cover;
+    // position: absolute; 
+    top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
-    width: 100%;
+    opacity: 0.6;
+    z-index: -1;
 }
 
 #content {
-    position: absolute;
-    top: 4rem;
-    bottom: 4rem;
-    right: 0;
-    left: 0;
+    min-height: calc(100vh - 8rem);
 }
+
+// #content::after {
+
+//     content:"";
+//     background-image: url(../app/components/images/Groupomania.webp);
+//     background-repeat:no-repeat;
+//     background-attachment:fixed;
+//     background-size: cover;
+//     position: absolute; 
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     opacity: 0.6;
+//     z-index: -1;
+// }

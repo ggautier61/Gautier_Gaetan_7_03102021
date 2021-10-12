@@ -1,0 +1,35 @@
+.card {
+    // max-height: 500px;
+    min-width: 250px;
+    max-width: 600px;
+    display: flex;
+    // width: 100%;
+    background-color: white;
+    color: black;
+  }
+  
+  
+  .input-full-width {
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  .content {
+    display: flex;
+    margin: 32px auto;
+    padding: 0 16px;
+    max-width: 960px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card-news {
+    max-width: 600px;
+    min-width: 250px;
+
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }

@@ -18,6 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatBadgeModule } from '@angular/material/badge';
+import { BackgroundImageComponent } from './shared/background-image/background-image.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { MatInputModule } from '@angular/material/input';
     FooterComponent,
     LoginComponent,
     SignupComponent,
-    HomeComponent
+    HomeComponent,
+    BackgroundImageComponent
   ],
   imports: [
     BrowserModule,
@@ -35,6 +38,7 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatBadgeModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
