@@ -18,12 +18,6 @@ export class LoginComponent implements OnInit {
     password: ['', Validators.required]
   })
   
-  
-
-  // signInForm: FormGroup = new FormGroup({
-  //   email: new FormControl('', [Validators.required, Validators.email]),
-  //   password: new FormControl('', Validators.required)
-  // });
 
   hide = true;
   get emailInput() { 
@@ -38,67 +32,26 @@ export class LoginComponent implements OnInit {
   errorMsg!: string;
 
   constructor(private formBuilder: FormBuilder,
-              private auth: AuthService,
+              private _authService: AuthService,
               private router: Router) {
-
-                
                }
 
   ngOnInit() {
     
   }
 
-  onSubmit() {
+  onSubmit(): void {
     
     if(this.signInForm.valid) {
 
     const email = this.signInForm.get('email')?.value;
     const password = this.signInForm.get('password')?.value;
 
-      this.auth.loginUser(email, password).then(res => {
-        console.log(res);
-        this.router.navigate(['/news-feed']);
-      })
-      .catch((error) => console.log(error))
-      
-    } else {
-      console.log('invalid');
+    this._authService.loginUser(email, password)
+    .subscribe(res => {
+      console.log(res)
+    })
     }
-  }
-
-  // onSubmit(signInForm: NgForm) {
-  //   console.log(signInForm.value);
-  //   console.log(signInForm.valid);
-  // }
-
-  onLogin() {
-    
-    
-    // const email = this.signInForm.get('email')?.value;
-    // const password = this.signInForm.get('password')?.value;
-
-    // console.log('email', email);
-    // console.log('password', password);
-
-    // this.auth.loginUser(email, password)
-    // .then(() => {
-    //   console.log('connexion ok');
-    // })
-    // .catch((error) => { 
-
-    // })
-
-    // this.auth.loginUser(email, password).then(
-    //   () => {
-    //     this.loading = false;
-    //     this.router.navigate(['/sauces']);
-    //   }
-    // ).catch(
-    //   (error) => {
-    //     this.loading = false;
-    //     this.errorMsg = error.message;
-    //   }
-    // );
   }
 
 }

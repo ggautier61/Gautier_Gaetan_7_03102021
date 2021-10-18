@@ -3,25 +3,36 @@
     position: relative;
 }
 
+// #header {
+//     height: 4rem;
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     right: 0;
+// }
 
-.background-image {
 
-    // content:"";
-    background-image: url(../app/components/images/Groupomania.webp);
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-    background-size: cover;
-    // position: absolute; 
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.6;
-    z-index: -1;
-}
+// .background-image {
+
+//     // content:"";
+//     background-image: url(../app/components/images/Groupomania.webp);
+//     background-repeat:no-repeat;
+//     background-attachment:fixed;
+//     background-size: cover;
+//     // position: absolute; 
+//     top: 0;
+//     left: 0;
+//     right: 0;
+//     bottom: 0;
+//     opacity: 0.6;
+//     z-index: -1;
+// }
 
 #content {
     min-height: calc(100vh - 8rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 // #content::after {

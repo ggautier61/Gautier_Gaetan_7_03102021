@@ -10,19 +10,18 @@ const rateLimit = require('express-rate-limit');
 //Configuration de la limite d'appels pour la connexion à un compte
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 5,                   // limite pour chaque IP à 5 requêtes
+    max: 15,                   // limite pour chaque IP à 5 requêtes
     message:
       "Vous avez effectué trop de tentatives de connexion, Veuillez réessayer dans 15 minutes"
   });
 
 //Configuration des routes user. utilisation d'un middleware pour vérifier
 //si le mot de passe correspond au schéma de sécurité demandé.
-router.post('/signup', checkPassword, userCtrl.signup);
+router.post('/signup', userCtrl.signup);
 router.post('/login', loginLimiter, userCtrl.login);
 
-router.use((err, req, res, next) => {
-  console.log(req);
-  next();
-})
+// router.use((err, req, res, next) => {
+//   next();
+// })
 
 module.exports = router;

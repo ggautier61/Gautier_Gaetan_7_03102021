@@ -44,20 +44,31 @@ $breakpoint: (
     }
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-
-    & .header__logo {
-        
-        
-        & img {
-           
-            border: 1px solid blue;
-        }
-    }
- 
+#header {
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
 }
+
+// header {
+//     display: flex;
+//     justify-content: space-between;
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+
+//     & .header__logo {
+        
+        
+//         & img {
+           
+//             border: 1px solid blue;
+//         }
+//     }
+ 
+// }
 
 .nav {
     background-color: $color-site;

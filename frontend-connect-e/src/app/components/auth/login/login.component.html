@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col" style="max-width: 600px;">
+        <div class="col">
             <mat-card class="card">
                 <mat-card-header>
                     <mat-card-title class="title">
@@ -28,13 +28,14 @@
                         
                     </div>
                 </mat-card-content>
-                <mat-card-actions>
-                    <button mat-stroked-button (click)=onSubmit()>Connexion</button>
+                <mat-card-actions class="d-flex flex-wrap m-2">
+                    <button class="me-2" mat-stroked-button (click)=onSubmit()>Connexion</button>
+                    <div style="padding: 5px; font-size: 12px; position: relative;">Pas encore de compte? 
+                        <a routerLink='/signup'>Inscrivez-vous</a>
+                    </div>                    
                 </mat-card-actions>
             </mat-card>
-            <div style="padding: 5px; font-size: 12px; position: relative;">Pas encore de compte? 
-                <a routerLink='/signup'>Inscrivez-vous</a>
-            </div>
+            
         </div> 
     </div>
 </div>
