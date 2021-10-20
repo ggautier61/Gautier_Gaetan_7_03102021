@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormGroupDirective, FormControl, NgForm } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { TokenStorageService } from 'src/app/services/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  errorMessage: string = '';
+  public errorMessage: string = '';
   error: { name: string, message: string } = { name: '', message: ''};
 
   signInForm: FormGroup = this.formBuilder.group({
@@ -33,10 +34,19 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private _authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private _tokenStorageService: TokenStorageService) {
                }
 
   ngOnInit() {
+
+    if (this._tokenStorageService.getToken()) {
+      console.log('token dans storage');
+      this._authService.isAuth$.next(true);
+      this.router.navigate(['/news-feed']);
+    } else {
+      this._authService.isAuth$.next(false);
+    }
     
   }
 
@@ -44,13 +54,23 @@ export class LoginComponent implements OnInit {
     
     if(this.signInForm.valid) {
 
-    const email = this.signInForm.get('email')?.value;
-    const password = this.signInForm.get('password')?.value;
+      const email = this.signInForm.get('email')?.value;
+      const password = this.signInForm.get('password')?.value;
 
-    this._authService.loginUser(email, password)
-    .subscribe(res => {
-      console.log(res)
-    })
+      this._authService.loginUser(email, password)
+      .subscribe(
+        res => {
+          console.log(res);
+          this._tokenStorageService.saveToken(res.accessToken);
+          this._tokenStorageService.saveUser(res);
+          this._authService.isAuth$.next(true);
+          this.router.navigate(['/news-feed']);
+        },
+        error => { 
+          this._authService.handleError(error);
+          this.errorMessage = error.error.message;
+        }
+      );
     }
   }
 

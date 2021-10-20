@@ -15,12 +15,17 @@ export class AuthGuardService implements CanActivate {
     return new Promise (
         (resolve, reject) => {  
           
-            if(this._authService.isAuth$) {
+          this._authService.isAuth$.subscribe(isauth => {
+            if (isauth) {
+              console.log('canActivate');
               resolve(true);
             } else {
               resolve(false);
+              console.log('can not activate');
               this.router.navigate(['']);
-            }   
+            }
+          })
+            
     });
   }
 }

@@ -17,8 +17,8 @@ const loginLimiter = rateLimit({
 
 //Configuration des routes user. utilisation d'un middleware pour vérifier
 //si le mot de passe correspond au schéma de sécurité demandé.
-router.post('/signup', userCtrl.signup);
-router.post('/login', loginLimiter, userCtrl.login);
+// router.post('/signup', userCtrl.signup);
+// router.post('/login', loginLimiter, userCtrl.login);
 
 // router.use((err, req, res, next) => {
 //   next();

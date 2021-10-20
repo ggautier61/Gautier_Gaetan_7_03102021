@@ -1,5 +1,5 @@
 //importation de mysql
-const mysql = require('mysql');
+const mysql = require('mysql2');
 require('dotenv').config();
 
 //connexion à la base de données MySql

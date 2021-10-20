@@ -42,30 +42,11 @@ export class SignupComponent implements OnInit {
       email: this.SignUpForm.get('email')?.value,
       password: this.SignUpForm.get('password')?.value,
     }
-
-    //TODO : a voir pour modification
-    // const { username, email, password } = this.SignUpForm;
-
-    // this.authService.register(username, email, password).subscribe(
-    //   data => {
-    //     console.log(data);
-    //     this.isSuccessful = true;
-    //     this.isSignUpFailed = false;
-    //   },
-    //   err => {
-    //     this.errorMessage = err.error.message;
-    //     this.isSignUpFailed = true;
-    //   }
-    // );
-
-    //TODO : End
-
-
     
-    this._authService.createUser(data).then(userId => {
-      console.log('Création réussie. L\'Id User est '+ userId);
-      // this.userService.getUser()
-      this.router.navigate(['/news-feed']);
+    this._authService.createUser(data).then(user => {
+      console.log(user);
+      console.log('Création réussie. L\'Id User est '+ user.email);
+      this.router.navigate(['/login']);
     })
     .catch(error => {
       console.log(error);

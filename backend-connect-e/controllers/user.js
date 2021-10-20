@@ -41,10 +41,7 @@ exports.signup = (req, res) => {
 exports.login = (req, res, next) => {
 
   const email = req.body.email;
-
-  const sql = "SELECT `id`, `lastname`, `firstname`, `email`, `password` FROM `user` WHERE `email` = '"
-             + email + "'";
-  // console.log(sql);
+  const sql = "SELECT `id`, `lastname`, `firstname`, `email`, `password` FROM `user` WHERE `email` = '" + email + "'";
 
   db.query(sql, (err, rows, fields) => {
     if(err) throw err;
@@ -52,68 +49,26 @@ exports.login = (req, res, next) => {
       console.log('user n\'existe pas');
       res.status(401).json({ message: 'l\'adresse email n\'existe pas' });
     } else {
-      console.log('user existe');
       this.user = rows[0];
-      console.log('user', this.user);
       const hash = rows[0].password;
-      
 
-      //Comparaison entre le mot de passe renseigné dans le formulaire
-      //et le mot de passe en BDD.
-         bcrypt.compare(req.body.password, hash)
-            // console.log(result);
-              .then(valid => {
-                if (!valid) {
-                  return res.status(401).send({ message: 'Nom utilisateur et/ou mot de passe incorrect !' });
-                }
-              
-                
-                //Création du token aléatoire pour une durée de 1h
-                res.status(200).json({
-                  userId: this.user.id,
-                  token: jwt.sign({ userId: this.user.id }, 'RANDOM_TOKEN_SECRET', { expiresIn: '1h' })
-                });
-              })
-              .catch(error => res.status(500).json({ error }))
+      //Comparaison entre le mot de passe renseigné dans le formulaire et le mot de passe en BDD.
+        bcrypt.compare(req.body.password, hash)
+          .then(valid => {
+            if (!valid) {
+              return res.status(401).send({ message: 'Nom utilisateur et/ou mot de passe incorrect !' });
+            }
           
+            //Création du token aléatoire pour une durée de 1h
+            res.status(200).json({
+              userId: this.user.id,
+              token: jwt.sign({ userId: this.user.id }, 'RANDOM_TOKEN_SECRET', { expiresIn: '1h' })
+            });
+          })
+          .catch(error => res.status(500).json({ error }))
       }
-           
-
   })
-
-  
-
-    // User.findOne({ email: req.body.email })
-
-    //   .then((user) => {
-    //     if (!user) {
-    //       return res.status(401).json({ message: 'l\'utilisateur n\'existe pas' })
-    //     }
-    //     //Comparaison entre le mot de passe renseigné dans le formulaire
-    //     //et le mot de passe en BDD.
-    //     if(user) {
-    //       bcrypt.compare(req.body.password, user.password)
-    //       .then(valid => {
-    //         if (!valid) {
-    //           return res.status(401).json({ message: 'Nom utilisateur et/ou mot de passe incorrect !' });
-    //         }
-    //         //Création du token aléatoire pour une durée de 1h
-    //         res.status(200).json({
-    //           userId: user._id,
-    //           token: jwt.sign(
-    //             { userId: user._id },
-    //             'RANDOM_TOKEN_SECRET',
-    //             { expiresIn: '1h' }
-    //           )
-    //         });
-    //       })
-    //       .catch(error => res.status(500).json({ error }));
-    //     }
-        
-    //   })
-    //   .catch(error => res.status(500).json({ error }));
-      
-  }
+}
 
 exports.getuser = (req, res, next) => {
 

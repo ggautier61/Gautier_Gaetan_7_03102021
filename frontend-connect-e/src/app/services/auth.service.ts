@@ -37,15 +37,12 @@ export class AuthService {
 
     // const apiURL = 'http://localhost:3000/api'
     return new Promise<any>((resolve, reject) => {
-      this.http.post(this.apiURL + 'signup', data)
+      this.http.post(this.apiURL + 'signup', data, this.httpOptions)
       .subscribe(
         (user: any) => {
-          console.log(user);
-          // console.log(JSON.parse(user));
-          this.isAuth$.next(true);
-          this.userId = user.userId;
-          // console.log(user.token);
-          return resolve(JSON.parse(user));},
+          // this.isAuth$.next(true);
+          this.userId = user.id;
+          return resolve(user);},
         (error) => { this.handleError; reject(error);}
       );
     });
@@ -64,7 +61,7 @@ export class AuthService {
 
   loginUser(email: string, password: string): Observable<any> {
    
-      return this.http.post(this.apiURL + 'login', {email: email, password: password});
+      return this.http.post(this.apiURL + 'signin', {email: email, password: password});
   
   }
 
