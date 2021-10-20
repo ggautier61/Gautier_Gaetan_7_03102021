@@ -44,9 +44,10 @@ export class LoginComponent implements OnInit {
       console.log('token dans storage');
       this._authService.isAuth$.next(true);
       this.router.navigate(['/news-feed']);
-    } else {
-      this._authService.isAuth$.next(false);
-    }
+    } 
+    // else {
+    //   this._authService.isAuth$.next(false);
+    // }
     
   }
 

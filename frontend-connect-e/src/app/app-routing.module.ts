@@ -20,7 +20,7 @@ const routes: Routes = [
 				loadChildren: () => import('./components/component.module').then(m => m.ComponentModule)
 			},
 			{ path: 'signup', component: SignupComponent },
-			{ path: 'login', component: LoginComponent	},
+			{ path: 'login', component: LoginComponent, pathMatch: 'full'	},
 			
 		]
 	},

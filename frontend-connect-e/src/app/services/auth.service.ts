@@ -66,10 +66,8 @@ export class AuthService {
   }
 
 
-  logout() {
-    this.authToken = '';
-    this.userId = 0;
-    // this.isAuth$.next(false);
+  logOut() {
+    this.isAuth$.next(false);
     this.router.navigate(['login']);
   }
 

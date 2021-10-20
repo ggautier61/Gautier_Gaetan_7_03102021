@@ -13,7 +13,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink='/notificatios'>
+            <button class="btn" (click)=onSignOut()>
+              <mat-icon class="center-icon-btn">power_settings_new</mat-icon>
+            </button>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLink='/notifications'>
               <mat-icon class="center-icon" matBadge="15" matBadgeColor="warn">notifications</mat-icon></a>
           </li>
           <li class="nav-item">
