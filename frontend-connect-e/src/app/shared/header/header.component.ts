@@ -9,13 +9,21 @@ import { TokenStorageService } from 'src/app/services/token-storage.service';
 })
 export class HeaderComponent implements OnInit {
 
+  public isAuth: boolean = false
   constructor(private _tokenStorageService: TokenStorageService,
-              private _authService: AuthService) { }
+              private _authService: AuthService) { 
+
+    this._authService.isAuth$.subscribe((res) => {
+      this.isAuth = res;
+    })
+
+              }
 
   ngOnInit() {
   }
 
   onSignOut() {
+    //Effacement des données stockées de la session
     this._tokenStorageService.signOut();
     this._authService.logOut();
   }

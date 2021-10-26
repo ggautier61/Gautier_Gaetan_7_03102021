@@ -41,7 +41,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     if (this._tokenStorageService.getToken()) {
-      console.log('token dans storage');
       this._authService.isAuth$.next(true);
       this.router.navigate(['/news-feed']);
     } 

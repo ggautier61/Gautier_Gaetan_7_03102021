@@ -2,54 +2,79 @@
     <div class="row justify-content-center">
         <div class="col">
             <mat-card class="card">
-                <div class="full-height">
-                    <mat-card-header>
-                        <!-- <mat-card-title>Création d'un nouveau compte utlisateur</mat-card-title> -->
-                    </mat-card-header>
-                    <mat-card-content>
-                        <div class="row">
-                            <div class="col">
-                                <form [formGroup]="MyAccountForm" novalidate>
-                                    <div fxLayout="column" fxLayoutAlign="space-between stretch">
-                                        <mat-form-field class="input-full-width m-1">
-                                            <input matInput type="text" formControlName="lastname" placeholder="Entrer votre nom" required>
-                                            <mat-error *ngIf="MyAccountForm.get('lastname')?.hasError('required')"></mat-error>
-                                        </mat-form-field>
-                                        <mat-form-field class="input-full-width">
-                                            <input matInput type="text" formControlName="firstname" placeholder="Entrer votre prénom" required>
-                                            <mat-error *ngIf="MyAccountForm.get('firstname')?.hasError('required')"></mat-error>
-                                        </mat-form-field>
-                                        <mat-form-field class="input-full-width">
-                                            <input class="form-control" type="email" matInput
-                                                placeholder="Entrer votre Email" formControlName="email" required>
-                                            <mat-error *ngIf="MyAccountForm.get('email')?.hasError('required')">
-                                            </mat-error>
-                                            <mat-error *ngIf="MyAccountForm.get('email')?.hasError('email')">
-                                                Adresse email non valide
-                                            </mat-error>
-                                        </mat-form-field>
-                                        
-                                        <!-- <div class="error" *ngIf="errorMessage!=''">
-                                            <p>{{ errorMessage }}</p>
-
-                                        </div> -->
-                                        
-                                    </div>
-                                </form>
-
+                <mat-card-header class="justify-content-center">
+                    <mat-card-title>Mes informations</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]="MyAccountForm" novalidate>
+                        <div class="row align-items-center">
+                            <!-- <div>
+                               <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+                                <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
+                                <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px"> 
+                            </div> -->
+                            
+                            <div class="col-12 col-sm-4 d-flex justify-content-center" style="position: relative;">
+                                <!-- <img class="img-fluid" src="http://localhost:3000/images/image_personne1.jpg" -->
+                                <img class="img-fluid" [src]="imagePreview"
+                                    alt="Photo Profile" style="border-radius: 50%;">
+                                    <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+                                <div id="modifImage">
+                                    <mat-icon class="center-icon" (click)="imageInput.click">edit</mat-icon>
+                                </div>
+                            </div >
+                            <div class="col-12 col-sm-8">
+                                <!-- <div class="row"> -->
+                                    <mat-form-field class="m-1 w-100">
+                                        <mat-label class="mb-1" for="lastname">Nom</mat-label>
+                                        <input matInput type="text" formControlName="lastname" required> 
+                                        <mat-icon *ngIf="lastnameIsDisabled" matSuffix (click)="onEdit('lastname')">edit</mat-icon>
+                                        <mat-icon *ngIf="!lastnameIsDisabled" matSuffix (click)="onSave('lastname')">done</mat-icon>
+                                        <mat-error *ngIf="MyAccountForm.get('lastname')?.hasError('required')"></mat-error>
+                                    </mat-form-field>
+                                <!-- </div> -->
+                                <div class="row">           
+                                    <mat-form-field class="m-1 w-100">
+                                        <mat-label class="mb-1" for="firstname">Prénom</mat-label>
+                                        <input matInput type="text" formControlName="firstname" required> 
+                                        <mat-icon *ngIf="firstnameIsDisabled" matSuffix (click)="onEdit('firstname')">edit</mat-icon>
+                                        <mat-icon *ngIf="!firstnameIsDisabled" matSuffix (click)="onSave('firstname')">done</mat-icon>
+                                        <mat-error *ngIf="MyAccountForm.get('firstname')?.hasError('required')"></mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="row">
+                                    <mat-form-field class="m-1 w-100">
+                                        <mat-label class="mb-1" for="email">Adresse email</mat-label>
+                                        <input matInput type="text" formControlName="email" required> 
+                                        <mat-icon *ngIf="emailIsDisabled" matSuffix (click)="onEdit('email')">edit</mat-icon>
+                                        <mat-icon *ngIf="!emailIsDisabled" matSuffix (click)="onSave('email')">done</mat-icon>
+                                        <mat-error *ngIf="MyAccountForm.get('email')?.hasError('required')">L'adresse email est requise</mat-error>
+                                        <mat-error *ngIf="MyAccountForm.get('email')?.hasError('email')">Adresse email non valide</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                
                             </div>
                         </div>
+                        <mat-divider></mat-divider>
+                        <div class="row">
+                            <mat-form-field class="m-1 w-100">
+                                <mat-label class="mb-1" for="password">Mot de passe</mat-label>
+                                <input matInput type="password" formControlName="password" required> 
+                                <mat-icon *ngIf="passwordIsDisabled" matSuffix (click)="onEdit('password')">edit</mat-icon>
+                                <mat-icon *ngIf="!passwordIsDisabled" matSuffix (click)="onSave('password')">done</mat-icon>
+                                <mat-error *ngIf="MyAccountForm.get('password')?.hasError('required')"></mat-error>
+                            </mat-form-field>
+                        </div>
 
-                    </mat-card-content>
-                </div>
-
+                    </form>
+                </mat-card-content>
+                <mat-divider></mat-divider>
                 <mat-card-actions class="d-flex flew-wrap m-2">
-                    <button class="me-2" mat-stroked-button (click)="onUpdate()" [disabled]="!MyAccountForm.valid">Modifier</button>
-                    
+                    <button class="me-2" mat-stroked-button 
+                        [disabled]="!MyAccountForm.valid">Modifier</button>
+                    <button mat-stroked-button color="warn">Supprimer Compte</button>
                 </mat-card-actions>
-
             </mat-card>
-
         </div>
     </div>
 </div>

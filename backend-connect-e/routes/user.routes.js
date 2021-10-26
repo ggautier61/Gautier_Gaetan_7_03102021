@@ -1,4 +1,4 @@
-const { authJwt } = require("../middleware");
+const { authToken } = require("../middleware");
 const userCrtl = require("../controllers/user.controller");
 
 module.exports = function(app) {
@@ -10,9 +10,13 @@ module.exports = function(app) {
 //     next();
 //   });
 
-  app.get("/api/test/all", userCrtl.allAccess);
-  app.get("/api/test/user", userCrtl.userBoard);
-  app.get("/api/test/admin", userCrtl.adminBoard);
+    app.get("/api/users", userCrtl.getUsers);
+    app.get("/api/user/:id", userCrtl.getUser);
+    app.post("/api/image", userCrtl.saveImage);
+    app.put("/api/user", userCrtl.modifyUser);
+    app.get("/api/test/all", userCrtl.allAccess);
+    app.get("/api/test/user", userCrtl.userBoard);
+    app.get("/api/test/admin", userCrtl.adminBoard);
 
 //   app.get(
 //     "/api/test/user",

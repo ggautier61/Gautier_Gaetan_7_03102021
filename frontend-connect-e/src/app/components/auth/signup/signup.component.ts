@@ -18,6 +18,7 @@ export class SignupComponent implements OnInit {
   });
 
   message= '';
+  hide = true;
 
   public errorMessage: string = '';
   error: { name: string, message: string } = { name: '', message: ''};

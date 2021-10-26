@@ -9,7 +9,7 @@ import { AuthService } from './services/auth.service';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
@@ -20,6 +20,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatBadgeModule } from '@angular/material/badge';
 import { BackgroundImageComponent } from './shared/background-image/background-image.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { AuthInterceptor } from './_helper/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,14 +43,16 @@ import { BackgroundImageComponent } from './shared/background-image/background-i
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
+    MatDividerModule,
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
   ],
   providers: [AuthGuardService, 
               AuthService,
-              { provide: ErrorStateMatcher,
-              useClass: ShowOnDirtyErrorStateMatcher }],
+              { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+              { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+            ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

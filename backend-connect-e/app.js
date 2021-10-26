@@ -17,7 +17,7 @@ require('dotenv').config();
 app.use(helmet()); // Utilisation de Helmet pour sécuriser l'app Express
 
 app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 var corsOptions = {
     origin: "http://localhost:4200"
@@ -46,13 +46,13 @@ function initial() {
     });
 }
 
-// app.use(function(req, res, next) {
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "x-access-token, Origin, Content-Type, Accept"
-//   );
-//   next();
-// });
+app.use(function(req, res, next) {
+  res.header(
+    "Access-Control-Allow-Headers",
+    "x-access-token, Origin, Content-Type, Accept"
+  );
+  next();
+});
 
 
 

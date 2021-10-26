@@ -11,7 +11,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 " *ngIf="isAuth">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink='/users'>
+              <mat-icon class="center-icon" matBadgeColor="primary">people_alt</mat-icon></a>
+          </li>
           <li class="nav-item">
             <button class="btn" (click)=onSignOut()>
               <mat-icon class="center-icon-btn">power_settings_new</mat-icon>
@@ -22,8 +26,8 @@
               <mat-icon class="center-icon" matBadge="15" matBadgeColor="warn">notifications</mat-icon></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink='/myaccount'>
-              <mat-icon class="center-icon" matBadgeColor="primary">person</mat-icon></a>
+            <a class="nav-link active" aria-current="page" routerLink='/profile'>
+              <mat-icon  matBadgeColor="primary">person</mat-icon></a>
           </li>
         </ul>
       </div>

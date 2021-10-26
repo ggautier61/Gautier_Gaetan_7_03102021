@@ -1,7 +1,8 @@
-const verifySignUp = require("../middleware");
 const authCtrl = require("../controllers/auth.controller");
+const authToken = require('../middleware');
 
 module.exports = function(app) {
+
 //   app.use(function(req, res, next) {
 //     res.header(
 //       "Access-Control-Allow-Headers",

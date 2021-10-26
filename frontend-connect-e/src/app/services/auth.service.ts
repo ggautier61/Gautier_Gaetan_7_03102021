@@ -12,7 +12,6 @@ import { User } from '../models/user.model';
 
 export class AuthService {
 
-  // isAuth$ = false;
   isAuth$ = new BehaviorSubject<boolean>(false);
   private authToken: string = '';
   userId: Number = 0;
@@ -49,8 +48,6 @@ export class AuthService {
 
   }  
   
-
-
   getToken(): string {
     return this.authToken;
   }
