@@ -50,15 +50,26 @@ export class UserService {
     
   }
 
-  modifyImageUser(file: File) {
+  modifyImageUser(id: string, file: File): Observable<User> {
 
-    // const formData = new FormData();
-    // formData.append('image', file);
+    const formData = new FormData();
+    formData.append('id', id);
+    (file) &&  formData.append('file', file, file.name);
 
-    return this.http.post(this.apiURL + 'image', file)
-      .subscribe(res => {
-        console.log(res);
-      })
+    // const option = { headers: new HttpHeaders({
+    //   'Content-Type': 'multipart/form-data',
+    //   'boundary': '{}',
+    //   'enctype': 'multipart/form-data'
+    // })}
+
+    // const option = {headers: new HttpHeaders({
+    //   'Content-Type': 'multipart/form-data'
+    // })}; 
+
+    return (this.http.post(this.apiURL + 'image', formData) as Observable<User>);
+      // .subscribe(res => {
+      //   console.log(res);
+      // })
   }
 
   getUsers() {

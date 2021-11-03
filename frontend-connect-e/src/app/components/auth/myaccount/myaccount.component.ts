@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,17 +25,20 @@ export class MyaccountComponent implements OnInit {
   imageFile: File | undefined | null;
 
   errorMessage: string = '';
+
+  @ViewChild('imageInput')
+  imageInput: ElementRef | any;
   
   constructor(private _authService: AuthService,
               private _userService: UserService,
               private formBuilder: FormBuilder,
               private _tokenStorageService: TokenStorageService) {
+
                 this.MyAccountForm = this.formBuilder.group({
                   lastname: [{value: '', disabled: true }, Validators.required],
                   firstname: [{value: '', disabled: true }, Validators.required],
                   email: [{value: '', disabled: true }, [Validators.required, Validators.email]],
-                  password: [{value: '', disabled: true }],
-                  image: [''] 
+                  password: [{value: '', disabled: true }]
                 });
                }
 
@@ -46,15 +50,14 @@ export class MyaccountComponent implements OnInit {
         console.log('user', user);
         this.currentUser = this.getUserReturned(user);
 
-        console.log('currentUser', this.currentUser);
-
         this.MyAccountForm.setValue({
           lastname: this.currentUser.lastname,
           firstname: this.currentUser.firstname,
           email: this.currentUser.email,
-          password: '*******',
-          image: ''
-        })
+          password: '*******'
+        });
+
+        this.imagePreview = this.currentUser.imageURL;
 
 
       });
@@ -62,13 +65,13 @@ export class MyaccountComponent implements OnInit {
   }
 
   getUserReturned(data: any): User {
-    console.log('data', data);
     const user: User = {
       id: data.id,
       lastname: data.lastname,
       firstname: data.firstname,
       email: data.email,
-      password: ''
+      password: '',
+      imageURL: data.imageURL
     };
     return user;
   }
@@ -142,24 +145,19 @@ export class MyaccountComponent implements OnInit {
     }
   }
 
- 
-
   onFileAdded(event: Event) {
 
     const target= event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
-    this._userService.modifyImageUser(file);
+    this._userService.modifyImageUser(this._tokenStorageService.getUserId(), file)
+    .subscribe(user => {
+      this.imagePreview = user.imageURL;
+    });
+  
+  }
 
-    // if(this.imageFile) {
-    //   this.MyAccountForm.get('image').setValue(file);
-    //   this.MyAccountForm.updateValueAndValidity();
-    //   const reader = new FileReader();
-    //   reader.onload = () => {
-    //     this.imagePreview = reader.result as string;
-    //     console.log(this.imagePreview);
-    //   };
-    //   reader.readAsDataURL(this.imageFile);
-    // }    
+  selectFile(): void {
+    this.imageInput.nativeElement.click();
   }
 }

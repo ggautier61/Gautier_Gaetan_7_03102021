@@ -73,29 +73,49 @@ exports.modifyUser = (req, res, next) => {
   //   {body.name: boby.value }
   // )
   // res.status(200).send('Modifications enregistrées!')
-}
+};
 
-exports.getUser = (req, res) => {
+exports.getUser = function(req, res) {
 
   const id = req.params.id;
-  console.log(id);
   User.findByPk(req.params.id).then(user => {
-    console.log('user', user);
     res.status(200).send(user);
   })
-}
+};
 
 exports.getUsers = async function (req, res, next) {
 
-  console.log('get users');
-
   User.findAll().then(users => {
-    // console.log(users);
     res.status(200).send(users);
   }); 
 
-}
+};
 
 exports.saveImage = (req, res) => {
-  console.log('save image');
-}
+
+  var body = req.body;
+
+  if(req.file) {
+
+    const urlFile = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename;
+    console.log('urlFile', urlFile);
+
+    User.findByPk(body.id).then(user => {
+
+      user.imageURL = urlFile.toString();
+
+      user.save().then(data => {
+        console.log(data);
+        res.status(200).send(data);
+      })
+      .catch((error) => {
+        return res.status(500).json({ error: JSON.stringify(error) })
+      });
+
+    })
+    .catch((error) => res.status(400).json({ message: 'error' }))
+  }
+  
+
+    
+};

@@ -1,5 +1,6 @@
 const { authToken } = require("../middleware");
 const userCrtl = require("../controllers/user.controller");
+const multer = require('../middleware/multer-config');
 
 module.exports = function(app) {
 //   app.use(function(req, res, next) {
@@ -12,7 +13,7 @@ module.exports = function(app) {
 
     app.get("/api/users", userCrtl.getUsers);
     app.get("/api/user/:id", userCrtl.getUser);
-    app.post("/api/image", userCrtl.saveImage);
+    app.post("/api/image", multer, userCrtl.saveImage);
     app.put("/api/user", userCrtl.modifyUser);
     app.get("/api/test/all", userCrtl.allAccess);
     app.get("/api/test/user", userCrtl.userBoard);

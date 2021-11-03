@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
       this._authService.loginUser(email, password)
       .subscribe(
         res => {
-          console.log(res);
           this._tokenStorageService.saveToken(res.accessToken);
           this._tokenStorageService.saveUser(res);
           this._authService.isAuth$.next(true);

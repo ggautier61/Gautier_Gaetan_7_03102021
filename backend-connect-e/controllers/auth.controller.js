@@ -52,7 +52,7 @@ exports.signin = (req, res) => {
   })
     .then(user => {
       if (!user) {
-        return res.status(404).send({ message: "Adresse email inconnue!" });
+        return res.status(404).send({ message: "Adresse email et/ou mot passe incorrect!" });
       }
 
       // Vérification du mot de passe
@@ -85,6 +85,7 @@ exports.signin = (req, res) => {
           lastname: user.lastname,
           firstname: user.firstname,
           email: user.email,
+          imageURL: user.imageURL,
           roles: authorities,
           accessToken: token
         });

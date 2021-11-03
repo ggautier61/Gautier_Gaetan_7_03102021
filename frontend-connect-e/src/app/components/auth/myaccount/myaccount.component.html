@@ -15,13 +15,12 @@
                             </div> -->
                             
                             <div class="col-12 col-sm-4 d-flex justify-content-center" style="position: relative;">
-                                <!-- <img class="img-fluid" src="http://localhost:3000/images/image_personne1.jpg" -->
-                                <img class="img-fluid" [src]="imagePreview"
-                                    alt="Photo Profile" style="border-radius: 50%;">
-                                    <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
-                                <div id="modifImage">
+                                <input type="file" name="image" accept="image/*" #imageInput (change)="onFileAdded($event)" style="display: none;">
+                                <img class="img-fluid" [src]="imagePreview" alt="Photo Profile" style="border-radius: 50%;">
+                                <button mat-button (click)="selectFile()">Selectionner</button>
+                                <!-- <button id="modifImage" type="file" name="image" accept="image/*" #imageInput (click)="onFileAdded($event)">
                                     <mat-icon class="center-icon" (click)="imageInput.click">edit</mat-icon>
-                                </div>
+                                </button> -->
                             </div >
                             <div class="col-12 col-sm-8">
                                 <!-- <div class="row"> -->
