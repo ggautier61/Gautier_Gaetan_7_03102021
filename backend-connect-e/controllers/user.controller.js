@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.user;
+const Role = db.role;
 
 
 exports.allAccess = (req, res) => {
@@ -11,7 +12,7 @@ res.status(200).send("User Content.");
 };
 
 exports.adminBoard = (req, res) => {
-res.status(200).send("Admin Content.");
+  res.status(200).send("Admin Content.");
 };
 
 exports.modifyUser = (req, res, next) => {
@@ -78,17 +79,16 @@ exports.modifyUser = (req, res, next) => {
 exports.getUser = function(req, res) {
 
   const id = req.params.id;
-  User.findByPk(req.params.id).then(user => {
+  User.findByPk(req.params.id, { include: [{ model: Role, required: true }]}).then(user => {
     res.status(200).send(user);
   })
 };
 
 exports.getUsers = async function (req, res, next) {
 
-  User.findAll().then(users => {
-    res.status(200).send(users);
-  }); 
-
+  User.findAll({ include: [{ model: Role, required: true }]}).then(users => {
+      res.status(200).send(users);  
+    });
 };
 
 exports.saveImage = (req, res) => {
@@ -118,4 +118,15 @@ exports.saveImage = (req, res) => {
   
 
     
+};
+
+exports.deleteUser = function (req, res) {
+
+  console.log('delete');
+  const id = req.params.id;
+  User.findByPk(id).then(user => {
+    user.destroy().then(response => {
+      res.status(200).send(true);
+    });
+  });
 };

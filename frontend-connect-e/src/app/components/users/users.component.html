@@ -1,1 +1,29 @@
-<p>users works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-lg-4 d-flex justify-content-center" *ngFor="let user of usersList">
+            <mat-card class="card m-0 mb-3 m-sm-2">
+            <mat-card-header style="justify-content: space-evenly;">
+                <div mat-card-avatar class="image-profile" style="background-image: url('{{ user.imageURL }}'); background-size: cover;"></div>
+                <mat-card-title>{{ user.firstname }} {{ user.lastname }}</mat-card-title>
+                <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <!-- <form [formGroup]="ToggleForm"> -->
+                    <mat-slide-toggle [formControl]="activate" (toggleChange)="onToggleChange($event)">{{ adminToggleText }}</mat-slide-toggle>
+                    <button id="btnDelete_{{ user.id }}" class="btn-delete" title="Supprimer compte" (click)="deleteUser($event, user)" *ngIf="isAdmin">
+                        <mat-icon class="center-icon" color="warn">delete</mat-icon>
+                    </button>  
+
+                <!-- </form> -->
+                
+            </mat-card-content>
+            
+            <mat-card-actions class="d-flex flew-wrap m-2">
+                
+            </mat-card-actions>
+        </mat-card>     
+        </div>
+       
+    </div>
+    
+</div>

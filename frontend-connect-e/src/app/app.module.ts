@@ -22,6 +22,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { BackgroundImageComponent } from './shared/background-image/background-image.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthInterceptor } from './_helper/auth.interceptor';
+import { SnackConfirmComponent } from './shared/snack-confirm/snack-confirm.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AuthInterceptor } from './_helper/auth.interceptor';
     SignupComponent,
     HomeComponent,
     BackgroundImageComponent
+
   ],
   imports: [
     BrowserModule,
@@ -54,6 +56,7 @@ import { AuthInterceptor } from './_helper/auth.interceptor';
               { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
             ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [SnackConfirmComponent]
 })
 export class AppModule { }

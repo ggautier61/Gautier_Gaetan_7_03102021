@@ -9,19 +9,22 @@
 li {
     border-radius: 15px;
     background-color: white;
-    height: 30px;
-    width: 30px;
+    height: 29px;
+    width: 29px;
     margin-right: 20px;
 }
 
 a {
     position: relative;
+    padding: 0;
+    width: 30px;
 }
 
 .center-icon {
     position: absolute;
     left: 3px;
-    line-height: 15px;
+    top: 2px;
+    // line-height: 15px;
     color: black;
 }
 
@@ -33,9 +36,17 @@ a {
 }
 
 .btn {
-    // width: 40px;
-    // height: 40px;
+    width: 30px;
+    height: 30px;
     // border-radius: 20px;
     position: relative;
+}
+
+#imageProfile {
+    height: 31px;
+    width: 31px;
+    border-radius: 15px;
+    background-size: cover;
+    background-position-x: center;
 }
 

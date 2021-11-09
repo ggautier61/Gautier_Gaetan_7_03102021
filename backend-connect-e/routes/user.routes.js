@@ -18,6 +18,7 @@ module.exports = function(app) {
     app.get("/api/test/all", userCrtl.allAccess);
     app.get("/api/test/user", userCrtl.userBoard);
     app.get("/api/test/admin", userCrtl.adminBoard);
+    app.delete("/api/user/:id", userCrtl.deleteUser);
 
 //   app.get(
 //     "/api/test/user",

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators, FormGroupDirective, FormControl, Ng
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
+import { User } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +37,8 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private _authService: AuthService,
               private router: Router,
-              private _tokenStorageService: TokenStorageService) {
+              private _tokenStorageService: TokenStorageService,
+              private _userService: UserService) {
                }
 
   ngOnInit() {
@@ -63,6 +66,11 @@ export class LoginComponent implements OnInit {
           this._tokenStorageService.saveToken(res.accessToken);
           this._tokenStorageService.saveUser(res);
           this._authService.isAuth$.next(true);
+          this._userService.getUser(res.id).subscribe(user => {
+              this._userService.connectedUser$.next(user);
+          })
+          
+          // this._userService.isAdmin$.next(true);
           this.router.navigate(['/news-feed']);
         },
         error => { 

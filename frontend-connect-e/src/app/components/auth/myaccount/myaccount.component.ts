@@ -1,6 +1,7 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
@@ -32,7 +33,8 @@ export class MyaccountComponent implements OnInit {
   constructor(private _authService: AuthService,
               private _userService: UserService,
               private formBuilder: FormBuilder,
-              private _tokenStorageService: TokenStorageService) {
+              private _tokenStorageService: TokenStorageService,
+              private router: Router) {
 
                 this.MyAccountForm = this.formBuilder.group({
                   lastname: [{value: '', disabled: true }, Validators.required],
@@ -47,8 +49,7 @@ export class MyaccountComponent implements OnInit {
     if (this._tokenStorageService.getToken()) {
       this._authService.isAuth$.next(true);
       this._userService.getUser(this._tokenStorageService.getUserId()).subscribe(user => {
-        console.log('user', user);
-        this.currentUser = this.getUserReturned(user);
+        this.currentUser = this._userService.transformUser(user);
 
         this.MyAccountForm.setValue({
           lastname: this.currentUser.lastname,
@@ -58,23 +59,11 @@ export class MyaccountComponent implements OnInit {
         });
 
         this.imagePreview = this.currentUser.imageURL;
-
-
       });
     }     
   }
 
-  getUserReturned(data: any): User {
-    const user: User = {
-      id: data.id,
-      lastname: data.lastname,
-      firstname: data.firstname,
-      email: data.email,
-      password: '',
-      imageURL: data.imageURL
-    };
-    return user;
-  }
+  
 
   onEdit(name: string) {
 
@@ -113,11 +102,11 @@ export class MyaccountComponent implements OnInit {
     const id: string = this._tokenStorageService.getUserId();
 
     
-    // this._userService.modifyDataUser({id, name, value}, this.imagePreview)
-    //     .then((res) => {
-    //       console.log(res)
-    //     })
-    //     .catch(error => {this._authService.handleError(error); })
+    this._userService.modifyDataUser({id, name, value})
+        .then((res) => {
+          console.log(res)
+        })
+        .catch(error => {this._authService.handleError(error); })
  
     this.MyAccountForm.get(inputName)?.disable();
 
@@ -152,6 +141,7 @@ export class MyaccountComponent implements OnInit {
 
     this._userService.modifyImageUser(this._tokenStorageService.getUserId(), file)
     .subscribe(user => {
+      this.currentUser.imageURL = user.imageURL;
       this.imagePreview = user.imageURL;
     });
   
@@ -159,5 +149,24 @@ export class MyaccountComponent implements OnInit {
 
   selectFile(): void {
     this.imageInput.nativeElement.click();
+  }
+
+  onDelete() {
+
+    this._tokenStorageService.signOut();
+    this._userService.deleteUser(this.currentUser.id).subscribe(response => {
+      if(response) {
+        this._authService.isAuth$.next(false);
+      }
+      
+      console.log(response);
+    })
+
+  }
+
+  onBack() {
+    this._userService.connectedUser$.next(this.currentUser);
+    this.router.navigate(['/news-feed']);
+    
   }
 }

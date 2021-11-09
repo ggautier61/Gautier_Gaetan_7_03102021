@@ -1,3 +1,5 @@
+import { Role } from 'src/app/models/role.model';
+
 export class User {
     id: string = '';
     lastname: string = '';
@@ -5,4 +7,5 @@ export class User {
     email: string = '';
     password: string = '';
     imageURL: string ='';
+    roles: Array<Role> = [];
 }

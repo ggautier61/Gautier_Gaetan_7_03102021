@@ -7,23 +7,15 @@
                 </mat-card-header>
                 <mat-card-content>
                     <form [formGroup]="MyAccountForm" novalidate>
-                        <div class="row align-items-center">
-                            <!-- <div>
-                               <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
-                                <button mat-raised-button color="primary" (click)="imageInput.click()">ADD IMAGE</button>
-                                <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 100px;display:block;margin-top:10px"> 
-                            </div> -->
-                            
-                            <div class="col-12 col-sm-4 d-flex justify-content-center" style="position: relative;">
+                        <div class="row justify-content-center">                            
+                            <div class="col-12 col-sm-4 d-flex justify-content-center" style="position: relative; width: 150px; height: 150px; padding: 0;">
                                 <input type="file" name="image" accept="image/*" #imageInput (change)="onFileAdded($event)" style="display: none;">
-                                <img class="img-fluid" [src]="imagePreview" alt="Photo Profile" style="border-radius: 50%;">
-                                <button mat-button (click)="selectFile()">Selectionner</button>
-                                <!-- <button id="modifImage" type="file" name="image" accept="image/*" #imageInput (click)="onFileAdded($event)">
-                                    <mat-icon class="center-icon" (click)="imageInput.click">edit</mat-icon>
-                                </button> -->
+                                <img id="imageProfile" class="img-fluid" [src]="imagePreview" alt="Photo Profile" style="border-radius: 50%;">
+                                <button id="modifImage" (click)="selectFile()">
+                                    <mat-icon class="center-icon">edit</mat-icon>
+                                </button>
                             </div >
                             <div class="col-12 col-sm-8">
-                                <!-- <div class="row"> -->
                                     <mat-form-field class="m-1 w-100">
                                         <mat-label class="mb-1" for="lastname">Nom</mat-label>
                                         <input matInput type="text" formControlName="lastname" required> 
@@ -31,8 +23,6 @@
                                         <mat-icon *ngIf="!lastnameIsDisabled" matSuffix (click)="onSave('lastname')">done</mat-icon>
                                         <mat-error *ngIf="MyAccountForm.get('lastname')?.hasError('required')"></mat-error>
                                     </mat-form-field>
-                                <!-- </div> -->
-                                <div class="row">           
                                     <mat-form-field class="m-1 w-100">
                                         <mat-label class="mb-1" for="firstname">Prénom</mat-label>
                                         <input matInput type="text" formControlName="firstname" required> 
@@ -40,8 +30,6 @@
                                         <mat-icon *ngIf="!firstnameIsDisabled" matSuffix (click)="onSave('firstname')">done</mat-icon>
                                         <mat-error *ngIf="MyAccountForm.get('firstname')?.hasError('required')"></mat-error>
                                     </mat-form-field>
-                                </div>
-                                <div class="row">
                                     <mat-form-field class="m-1 w-100">
                                         <mat-label class="mb-1" for="email">Adresse email</mat-label>
                                         <input matInput type="text" formControlName="email" required> 
@@ -50,8 +38,6 @@
                                         <mat-error *ngIf="MyAccountForm.get('email')?.hasError('required')">L'adresse email est requise</mat-error>
                                         <mat-error *ngIf="MyAccountForm.get('email')?.hasError('email')">Adresse email non valide</mat-error>
                                     </mat-form-field>
-                                </div>
-                                
                             </div>
                         </div>
                         <mat-divider></mat-divider>
@@ -64,14 +50,14 @@
                                 <mat-error *ngIf="MyAccountForm.get('password')?.hasError('required')"></mat-error>
                             </mat-form-field>
                         </div>
-
+                        <mat-divider></mat-divider>
                     </form>
+                    
                 </mat-card-content>
-                <mat-divider></mat-divider>
+                
                 <mat-card-actions class="d-flex flew-wrap m-2">
-                    <button class="me-2" mat-stroked-button 
-                        [disabled]="!MyAccountForm.valid">Modifier</button>
-                    <button mat-stroked-button color="warn">Supprimer Compte</button>
+                    <button mat-stroked-button (click)="onBack()">Retour</button>
+                    <button mat-stroked-button color="warn" (click)="onDelete()">Supprimer Compte</button>
                 </mat-card-actions>
             </mat-card>
         </div>

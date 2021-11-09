@@ -9,8 +9,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class NewsFeedComponent implements OnInit {
 
 
-  ExpressForm: FormGroup = this.formBuilder.group({
-    expressInput: [''],
+  NewFeedForm: FormGroup = this.formBuilder.group({
+    newFeedInput: [''],
     password: ['']
   })
   

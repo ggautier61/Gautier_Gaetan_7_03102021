@@ -44,13 +44,14 @@ exports.signup = (req, res) => {
 };
 
 exports.signin = (req, res) => {
-    console.log('signin');
+
   User.findOne({
     where: {
       email: req.body.email
     }
   })
     .then(user => {
+      console.log(user);
       if (!user) {
         return res.status(404).send({ message: "Adresse email et/ou mot passe incorrect!" });
       }
@@ -73,6 +74,7 @@ exports.signin = (req, res) => {
         expiresIn: 3600 // 1 hours
       });
 
+      //TODO : supprimer getRoles() car pas besoin pour renvoit du json au front pour l'authentification
       //tableau de roles qui sera renvoyer dans la réponse
       var authorities = [];
       //Récupération de la table roles de mysql
@@ -82,11 +84,11 @@ exports.signin = (req, res) => {
         }
         res.status(200).send({
           id: user.id,
-          lastname: user.lastname,
-          firstname: user.firstname,
-          email: user.email,
-          imageURL: user.imageURL,
-          roles: authorities,
+          // lastname: user.lastname,
+          // firstname: user.firstname,
+          // email: user.email,
+          // imageURL: user.imageURL,
+          // roles: authorities,
           accessToken: token
         });
       });

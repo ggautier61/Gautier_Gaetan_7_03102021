@@ -1,0 +1,28 @@
+@import '~@angular/material/theming';
+:host {
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    line-height: 20px;
+}
+
+.mat-custom-simple-snackbar-message {
+    /*@include mat-truncate-line;*/
+    text-overflow: ellipsis; //margin-right: 10px;
+    font-size: 14px;
+}
+
+.mat-custom-simple-snackbar-action-container {
+    display: inline-flex;
+    margin-left: 10px;
+    .mat-custom-simple-snackbar-action {
+        user-select: none;
+        cursor: pointer;
+        outline: 0;
+        border: none;
+        -webkit-tap-highlight-color: transparent;
+        background: 0 0;
+        flex-shrink: 0;
+        font-size: 14px;
+    }
+}

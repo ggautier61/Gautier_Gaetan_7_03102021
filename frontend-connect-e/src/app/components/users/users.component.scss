@@ -1,0 +1,47 @@
+// .image-profile::before {
+//     // background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+//     background-size: cover;
+//   }
+
+.container {
+    display: flex;
+
+}
+
+.card {
+    max-width: 500px;
+    width: 100%;
+    margin: 20px;
+}
+
+.image-profile {
+    background-position-x: center;
+    background-position-y: center;
+}
+
+.mat-card-avatar {
+    width: 60px;
+    height: 60px;
+}
+
+.btn-delete {
+    border: 1px solid #f44336;
+    background-color: white;
+    border-radius: 15px;
+    height: 30px;
+    max-width: 30px;
+    padding: 0;
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    // & :hover {
+        
+    //     title: " ('Supprimer compte') ";
+    // }
+    
+}
+
+.center-icon {
+    line-height: 25px;
+    font-size: 20px;
+}

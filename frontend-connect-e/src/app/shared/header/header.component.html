@@ -1,9 +1,7 @@
 <div id="main-wrapper" dir="ltr" data-theme="light" data-layout="vertical"  data-sidebar-position="absolute" data-header-position="fixed" data-boxed-layout="full" >
 
-  <!-- <header class="topbar" data-navbarbg="skin6">
-  </header> -->
   <div class="h-100">
-    <nav class="navbar  navbar-expand-sm navbar-dark nav" style="align-items: center;">
+    <nav class="navbar  navbar-expand-sm navbar-dark nav" style="align-items: center; z-index: 1;">
       <a class="navbar-brand" href="index.html">
         <img src="../../../assets/images/icon-left-font-mod.webp" alt="Logo Connect-e" id="logo"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -18,7 +16,7 @@
           </li>
           <li class="nav-item">
             <button class="btn" (click)=onSignOut()>
-              <mat-icon class="center-icon-btn">power_settings_new</mat-icon>
+              <mat-icon class="center-icon" style="left: 2px;">power_settings_new</mat-icon>
             </button>
           </li>
           <li class="nav-item">
@@ -26,8 +24,11 @@
               <mat-icon class="center-icon" matBadge="15" matBadgeColor="warn">notifications</mat-icon></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink='/profile'>
-              <mat-icon  matBadgeColor="primary">person</mat-icon></a>
+            <a class="nav-link active p-0" aria-current="page" routerLink='/profile'>
+              <mat-icon  class="center-icon" *ngIf="!imageProfile">person</mat-icon>
+              <div id="imageProfile" class="p-0" *ngIf="imageProfile" [ngStyle]="{'background-image': 'url(' + imageProfile + ')'}" style="padding: 0;"></div>
+              <!-- <img id="imageProfile" *ngIf="imageProfile" [src]="imageProfile" alt=""> -->
+            </a>
           </li>
         </ul>
       </div>
