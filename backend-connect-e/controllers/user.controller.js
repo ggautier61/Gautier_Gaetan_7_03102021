@@ -15,7 +15,7 @@ exports.adminBoard = (req, res) => {
   res.status(200).send("Admin Content.");
 };
 
-exports.modifyUser = (req, res, next) => {
+exports.updateUser = (req, res, next) => {
 
   var body = req.body;
   console.log(body);
@@ -28,15 +28,16 @@ exports.modifyUser = (req, res, next) => {
       console.log('lastname');
       User.update(
         { lastname : body.value },
-        { where: { id: body.id }});
-        break;
+        { where: { id: body.id }}
+      );
+      break;
       }
     case 'firstname': {
       console.log('firstname');
       User.update(
         { firstname: body.value },
         { where: { id: body.id }}
-      )
+      );
       break;
     }
     case 'email': {
@@ -53,6 +54,28 @@ exports.modifyUser = (req, res, next) => {
         { password: body.value },
         { where: { id: body.id }}
       )
+      break;
+    }
+
+    case 'role': {
+      
+      console.log('id', body.id);
+      console.log('name', body.value);
+
+      User.findByPk(body.id).then(user => {
+        console.log(user);
+        //Ajout du role User
+        Role.findOne({ where: {name: body.value}}).then(role => {
+          console.log('role : ', role);
+          user.setRoles([role.id]).then(() => {
+            res.send({ message: "Mise à jour role OK"})
+          })
+        })
+        .catch(err => {
+          res.status(500).send({ message: err.message });
+        })
+      })
+      .catch((error) => res.status(400).json({ message: error }))
       break;
     }
     default: {
@@ -78,7 +101,6 @@ exports.modifyUser = (req, res, next) => {
 
 exports.getUser = function(req, res) {
 
-  const id = req.params.id;
   User.findByPk(req.params.id, { include: [{ model: Role, required: true }]}).then(user => {
     res.status(200).send(user);
   })

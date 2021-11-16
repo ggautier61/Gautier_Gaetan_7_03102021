@@ -14,7 +14,7 @@ module.exports = function(app) {
     app.get("/api/users", userCrtl.getUsers);
     app.get("/api/user/:id", userCrtl.getUser);
     app.post("/api/image", multer, userCrtl.saveImage);
-    app.put("/api/user", userCrtl.modifyUser);
+    app.put("/api/user", userCrtl.updateUser);
     app.get("/api/test/all", userCrtl.allAccess);
     app.get("/api/test/user", userCrtl.userBoard);
     app.get("/api/test/admin", userCrtl.adminBoard);

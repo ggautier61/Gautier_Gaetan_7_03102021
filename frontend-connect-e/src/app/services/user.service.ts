@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, ObservedValueOf } from 'rxjs';
 import { User } from '../models/user.model';
 import { AuthService } from './auth.service';
+import { HandlerErrorService } from './handler-error.service';
 import { TokenStorageService } from './token-storage.service';
 
 
@@ -21,7 +22,8 @@ export class UserService {
   
   constructor(private http: HttpClient,
               private _tokenStorageService: TokenStorageService,
-              private _authService: AuthService) { }
+              private _authService: AuthService,
+              private _handler: HandlerErrorService) { }
 
   getUserConnected() {
     // this.isAdmin$.next(false);
@@ -69,7 +71,7 @@ export class UserService {
     })
   }  
 
-  modifyDataUser(user: {id: string, name: string, value: string}): Promise<any> {
+  updateDataUser(user: {id: string, name: string, value: string}): Promise<any> {
 
     return new Promise<any>((resolve, reject) => {
 
@@ -80,31 +82,18 @@ export class UserService {
                 console.log(res);
                 resolve(true);
               },
-              (error) => { this._authService.handleError(error);});
+              (error) => { this._handler.handleError(error);});
             })
     
   }
 
-  modifyImageUser(id: string, file: File): Observable<User> {
+  updateImageUser(id: string, file: File): Observable<User> {
 
     const formData = new FormData();
     formData.append('id', id);
     (file) &&  formData.append('file', file, file.name);
 
-    // const option = { headers: new HttpHeaders({
-    //   'Content-Type': 'multipart/form-data',
-    //   'boundary': '{}',
-    //   'enctype': 'multipart/form-data'
-    // })}
-
-    // const option = {headers: new HttpHeaders({
-    //   'Content-Type': 'multipart/form-data'
-    // })}; 
-
     return (this.http.post(this.apiURL + 'image', formData) as Observable<User>);
-      // .subscribe(res => {
-      //   console.log(res);
-      // })
   }
 
   getUsers(): Observable<any> {
@@ -120,6 +109,10 @@ export class UserService {
     this.getUser(this._tokenStorageService.getUserId()).subscribe(user => {
       return user.imageURL;
     });
+
+  }
+
+  updateRole() {
 
   }
 }

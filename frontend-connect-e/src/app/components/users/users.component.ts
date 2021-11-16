@@ -14,6 +14,8 @@ import {
 } from '@angular/material/snack-bar';
 import { SnackConfirmComponent } from 'src/app/shared/snack-confirm/snack-confirm.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { HandlerErrorService } from 'src/app/services/handler-error.service';
 
 @Component({
   selector: 'app-users',
@@ -29,26 +31,28 @@ export class UsersComponent implements OnInit {
   adminToggle: boolean = true;
   adminToggleText: string = 'admin';
 
-  // ToggleForm: FormGroup | any;
 
-  @Output()
-    toggleChange: EventEmitter<void> | any;
+
+  toggleValue: any;
+
+  ToggleForm: FormGroup | any;
+
+  // @Output()
+  //   toggleChange: EventEmitter<void> | any;
 
     activate = new FormControl();
-
-    onToggleChange(event: any) {
-      console.log(this.activate.value);
-    } 
-  
 
   // private _deleteSnackBarRef: MatSnackBarRef<SnackConfirmComponent>;
 
   constructor(private formBuilder: FormBuilder,
               private _userService: UserService,
               private router: Router,
-              private matSnackBar: MatSnackBar) 
+              private matSnackBar: MatSnackBar,
+              private _handler: HandlerErrorService) 
   {
-
+    this.ToggleForm = new FormGroup({
+      formControlAdmin: new FormControl(true)
+    });
     // this.ToggleForm = this.formBuilder.group({
     //   isAdminToggle: [false]
     // })
@@ -72,14 +76,58 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
-
     //Recherche du tous les utilisateurs et de leurs rôles
     this._userService.getUsers().subscribe((datas) => {
       console.log('users', datas);
       this.usersList = datas;
-    })
+    });
+
+    this.ToggleForm.get("formControlAdmin").valueChanges.subscribe({
+      next: (value: any) => {
+        console.log("ToggleForm value of slideMe changed", value);
+      }
+    });
   }
+
+  isSliceChecked(event: MatSlideToggleChange, user: User) {
+
+    //création Form
+    let formControl = new FormControl();
+    
+    var value = '';
+    const id = user.id;
+
+    if(event.checked) {
+      value = 'admin';
+    } else {
+      value = 'user';
+    }
+     
+    const name = 'role'
+
+    this._userService.updateDataUser({ id, name, value}).then(result => {
+        console.log('mise à jour du role OK');
+    })
+    .catch(error => {
+      console.log('mise à jour du role KO');
+      this._handler.handleError({ error: { message: 'Un problème est survenue lors de la mise à jour du role' }, status: error, message: error });
+      
+    })
+
+    // user.roles.forEach(role => {
+    //   if(role.name == 'admin') {
+    //     console.log('l\'utilisateur est admin');
+    //   }
+      
+    // });
+
+    console.log('user', user);
+    console.log('checked', event.checked);
+
+    // let element = document.getElementById("isAdminToggle_"+user.id) as HTMLFormElement;
+    // console.log('element', element);
+   
+  } 
 
   deleteUser(event: Event, user: User) {
 

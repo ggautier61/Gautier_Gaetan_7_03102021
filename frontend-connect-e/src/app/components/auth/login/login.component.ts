@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { HandlerErrorService } from 'src/app/services/handler-error.service';
 
 @Component({
   selector: 'app-login',
@@ -38,7 +39,8 @@ export class LoginComponent implements OnInit {
               private _authService: AuthService,
               private router: Router,
               private _tokenStorageService: TokenStorageService,
-              private _userService: UserService) {
+              private _userService: UserService,
+              private _handler: HandlerErrorService) {
                }
 
   ngOnInit() {
@@ -74,7 +76,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/news-feed']);
         },
         error => { 
-          this._authService.handleError(error);
+          this._handler.handleError(error);
           this.errorMessage = error.error.message;
         }
       );

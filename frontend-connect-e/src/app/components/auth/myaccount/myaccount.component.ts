@@ -4,6 +4,7 @@ import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { HandlerErrorService } from 'src/app/services/handler-error.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -34,7 +35,8 @@ export class MyaccountComponent implements OnInit {
               private _userService: UserService,
               private formBuilder: FormBuilder,
               private _tokenStorageService: TokenStorageService,
-              private router: Router) {
+              private router: Router,
+              private _handler: HandlerErrorService) {
 
                 this.MyAccountForm = this.formBuilder.group({
                   lastname: [{value: '', disabled: true }, Validators.required],
@@ -102,11 +104,11 @@ export class MyaccountComponent implements OnInit {
     const id: string = this._tokenStorageService.getUserId();
 
     
-    this._userService.modifyDataUser({id, name, value})
+    this._userService.updateDataUser({id, name, value})
         .then((res) => {
           console.log(res)
         })
-        .catch(error => {this._authService.handleError(error); })
+        .catch(error => {this._handler.handleError(error); })
  
     this.MyAccountForm.get(inputName)?.disable();
 
@@ -139,7 +141,7 @@ export class MyaccountComponent implements OnInit {
     const target= event.target as HTMLInputElement;
     const file: File = (target.files as FileList)[0];
 
-    this._userService.modifyImageUser(this._tokenStorageService.getUserId(), file)
+    this._userService.updateImageUser(this._tokenStorageService.getUserId(), file)
     .subscribe(user => {
       this.currentUser.imageURL = user.imageURL;
       this.imagePreview = user.imageURL;

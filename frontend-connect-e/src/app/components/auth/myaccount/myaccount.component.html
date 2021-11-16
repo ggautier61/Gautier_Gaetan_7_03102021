@@ -10,7 +10,7 @@
                         <div class="row justify-content-center">                            
                             <div class="col-12 col-sm-4 d-flex justify-content-center" style="position: relative; width: 150px; height: 150px; padding: 0;">
                                 <input type="file" name="image" accept="image/*" #imageInput (change)="onFileAdded($event)" style="display: none;">
-                                <img id="imageProfile" class="img-fluid" [src]="imagePreview" alt="Photo Profile" style="border-radius: 50%;">
+                                <img id="imageProfile" class="img-fluid" [src]="imagePreview" alt="Photo Profile" style="border-radius: 50%; object-fit: cover;">
                                 <button id="modifImage" (click)="selectFile()">
                                     <mat-icon class="center-icon">edit</mat-icon>
                                 </button>

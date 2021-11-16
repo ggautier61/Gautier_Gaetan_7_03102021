@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { HandlerErrorService } from 'src/app/services/handler-error.service';
 
 @Component({
   selector: 'app-signup',
@@ -28,7 +29,8 @@ export class SignupComponent implements OnInit {
   
   constructor(private formBuilder: FormBuilder,
               private _authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private _handler: HandlerErrorService) { }
 
   ngOnInit(): void { 
     
@@ -51,7 +53,7 @@ export class SignupComponent implements OnInit {
     })
     .catch(error => {
       console.log(error);
-      this._authService.handleError(error);
+      this._handler.handleError(error);
       this.errorMessage = error.error.message;
     });
   }

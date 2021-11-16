@@ -19,7 +19,10 @@ exports.signup = (req, res) => {
     password: bcrypt.hashSync(body.password, 10)
   })
     .then(user => {
+
+     
       if (req.body.roles) {
+        //retrouve l'id du role émis dans la requête
         Role.findAll({
           where: {
             name: {
@@ -90,7 +93,7 @@ exports.signin = (req, res) => {
           // imageURL: user.imageURL,
           // roles: authorities,
           accessToken: token
-        });
+        });5
       });
     })
     .catch(err => {

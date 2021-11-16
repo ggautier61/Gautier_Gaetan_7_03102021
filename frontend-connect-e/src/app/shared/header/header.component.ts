@@ -1,6 +1,7 @@
 import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { HandlerErrorService } from 'src/app/services/handler-error.service';
 import { TokenStorageService } from 'src/app/services/token-storage.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private _tokenStorageService: TokenStorageService,
               private _authService: AuthService,
-              private _userService: UserService) { 
+              private _userService: UserService,
+              private _handler: HandlerErrorService) { 
 
     this._authService.isAuth$.subscribe((res) => {
       this.isAuth = res;
@@ -26,7 +28,7 @@ export class HeaderComponent implements OnInit {
       this.imageProfile = user.imageURL;
     },    
     error => { 
-      this._authService.handleError(error);
+      this._handler.handleError(error);
     });
 
   }
