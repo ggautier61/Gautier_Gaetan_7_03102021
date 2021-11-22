@@ -106,9 +106,9 @@ exports.getUser = function(req, res) {
   })
 };
 
-exports.getUsers = async function (req, res, next) {
+exports.getUsers = async function (req, res, next) { 
 
-  User.findAll({ include: [{ model: Role, required: true }]}).then(users => {
+  User.findAll({ include: [{ model: Role }]}).then(users => {
       res.status(200).send(users);  
     });
 };

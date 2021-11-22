@@ -1,75 +1,79 @@
-<div class= "container pt-5">
-    <div class="row">
-        <div class="col">
-            <div class="row mb-3 justify-content-center">
-                <mat-card class="card">
-                    <!-- <mat-card-header>
-                        <mat-card-title class="title">
-                            Connexion à votre compte
-                        </mat-card-title>
-                    </mat-card-header> -->
-                    <mat-card-content>
-                        <div class="row">
-                            <div class="col" >
-                                <form [formGroup]="NewFeedForm" autocomplete="off" novalidate>
-                                    <mat-form-field class="input-full-width">
-                                        <input matInput type="text" formControlName="newFeedInput" placeholder="Exprimez-vous">
-                                    </mat-form-field>                                
-                                </form>
-                            </div>
-                            
-                        </div>
-                    </mat-card-content>
-                    <!-- <mat-card-actions>
-                        <button mat-stroked-button (click)=onSubmit()>Connexion</button>
-                    </mat-card-actions> -->
-                </mat-card>
+<div class="container pt-5">
+  <div class="row">
+    <div class="col">
+
+      <div class="row mb-3 justify-content-center">
+        <mat-card class="card-news__create d-flex">
+          <mat-card-content>
+            <div class="row ms-1 me-1 flex-nowrap align-items-center">
+              <div mat-card-avatar class="avatar-image me-4"
+                style="background-image: url('{{ userConnected.imageURL }}')"></div>
+              <form class="d-flex flex-nowrap" [formGroup]="SendNewsForm" autocomplete="off">
+                <div class="row">
+                  <mat-form-field class="input-full-width">
+                    <input matInput type="text" formControlName="newsFeedInput" placeholder="Exprimez-vous">
+                  </mat-form-field>
+                  <button class="btn" (click)="Send()">
+                    <mat-icon style="left: 2px;">send</mat-icon>
+                  </button>
+                </div>
+                <div class="row flex-column">
+                  <input type="file" name="image" accept="image/*" #imageInput (change)="onFileAdded($any($event).target.files)" style="display: none;">
+                  <img id="imageNews" class="img-fluid" [src]="imagePreview" alt="Photo News" style="object-fit: cover;" *ngIf="imagePreview">
+                  <button id="modifImage" (click)="selectFile()">
+                    <mat-icon class="center-icon">edit</mat-icon>
+                  </button>
+                </div>
+              </form>
             </div>
-            <div class="row mb-3 justify-content-center">
-                <mat-card class="card-news">
-                    <mat-card-header>
-                      <div mat-card-avatar class="example-header-image"></div>
-                      <mat-card-title>Shiba Inu</mat-card-title>
-                      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                    <mat-card-content>
-                      <p>
-                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                        bred for hunting.
-                      </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                      <button mat-button>LIKE</button>
-                      <button mat-button>SHARE</button>
-                    </mat-card-actions>
-                  </mat-card>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="row mb-3 justify-content-center flex-column">
+        <mat-card class="card-news" *ngFor="let new of newsList">
+          <mat-card-header>
+            <div mat-card-avatar class="avatar-image" style="background-image: url('{{ new.user?.imageURL }}')"></div>
+            <mat-card-title>{{ new.user?.firstname}} {{ new.user?.lastname }}</mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div class="image-container">
+              <img mat-card-image class="card-image" src="{{ new.imageURL }}">
+              <i class="heart far fa-heart"></i>
             </div>
-            <div class="row mb-3 justify-content-center">
-                <mat-card class="card-news">
-                    <mat-card-header>
-                      <div mat-card-avatar class="example-header-image"></div>
-                      <mat-card-title>Shiba Inu</mat-card-title>
-                      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-                    </mat-card-header>
-                    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                    <mat-card-content>
-                      <p>
-                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-                        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                        bred for hunting.
-                      </p>
-                    </mat-card-content>
-                    <mat-card-actions>
-                      <button mat-button>LIKE</button>
-                      <button mat-button>SHARE</button>
-                    </mat-card-actions>
-                  </mat-card>
+
+            <div class="ps-3 me-5">{{ new.message }}</div>
+            <div class="row m-3 flex-nowrap" *ngFor="let comment of new.comment">
+              <div mat-card-avatar class="avatar-image me-4"
+                style="background-image: url('{{ comment.owner?.imageURL }}')"></div>
+              <div class="row comment">
+                <div class="comment--name">{{ comment.owner?.firstname }} {{ comment.owner?.lastname }}</div>
+                <div>{{ comment.message }}</div>
+              </div>
             </div>
-        </div>
-        
-        
+            <div class="row m-3 flex-nowrap pe-3">
+              <div mat-card-avatar class="avatar-image me-4"
+                style="background-image: url('{{ userConnected.imageURL }}')"></div>
+              <div class="row">
+                <form [formGroup]="NewsFeedForm" class="d-flex flex-nowrap">
+                  <mat-form-field class="input-full-width">
+                    <input matInput type="text" formControlName="answerNewsInput" placeholder="Répondre">
+
+                  </mat-form-field>
+                  <button class="btn" (click)="Send()">
+                    <mat-icon style="left: 2px;">send</mat-icon>
+                  </button>
+                </form>
+
+              </div>
+            </div>
+
+          </mat-card-content>
+          <mat-card-actions>
+
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
-    
+  </div>
 </div>

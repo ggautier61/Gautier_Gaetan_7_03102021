@@ -1,4 +1,4 @@
-//Model Users correspondant à la table users de myQSQL
+//Model Users correspondant à la table users de mySQL
 module.exports = (sequelize, Sequelize) => {
     const User = sequelize.define("users", {
       lastname: {

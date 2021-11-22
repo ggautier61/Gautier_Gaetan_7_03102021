@@ -1,9 +1,12 @@
-export class New {
-    imageUrl: string = '';
-    title: string = '';
-    message: string = '';
-    id_user_create: string = '';
-    
+import { NewsComment } from "./news-comment.model";
 
+export class New {
+
+    id: string = '';
+    message: string= '';
+    imageURL: string = '';
+    ownerId: string = '';
+    
+    comment: Array<NewsComment> = [];
 
 }

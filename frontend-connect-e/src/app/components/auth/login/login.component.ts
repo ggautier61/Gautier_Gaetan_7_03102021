@@ -48,10 +48,7 @@ export class LoginComponent implements OnInit {
     if (this._tokenStorageService.getToken()) {
       this._authService.isAuth$.next(true);
       this.router.navigate(['/news-feed']);
-    } 
-    // else {
-    //   this._authService.isAuth$.next(false);
-    // }
+    }
     
   }
 

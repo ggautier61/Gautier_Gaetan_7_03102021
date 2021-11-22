@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Role } from 'src/app/models/role.model';
 import { User } from 'src/app/models/user.model';
@@ -22,10 +22,10 @@ import { HandlerErrorService } from 'src/app/services/handler-error.service';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, AfterViewInit {
 
   imageProfile: string = '`D:\\Workspace\\Openclassroom\\Projet 7 - Créez un réseau social d\'entreprise\\Documents\\ImagesProfil\\Profil_2.jpg`';
-  usersList: Array<User> = [];
+  usersList: Array<{user: User, isAdmin: boolean}> = new Array();
   isAdmin: boolean = false;
   roles: Array<Role> = [];
   adminToggle: boolean = true;
@@ -51,7 +51,7 @@ export class UsersComponent implements OnInit {
               private _handler: HandlerErrorService) 
   {
     this.ToggleForm = new FormGroup({
-      formControlAdmin: new FormControl(true)
+      formControlAdmin: new FormControl()
     });
     // this.ToggleForm = this.formBuilder.group({
     //   isAdminToggle: [false]
@@ -72,27 +72,62 @@ export class UsersComponent implements OnInit {
     this._userService.isAdmin$.subscribe(admin => {
       this.isAdmin = admin;
     });
+
+    //Recherche du tous les utilisateurs et de leurs rôles
+    this._userService.getUsers().subscribe((datas) => {
+
+      datas.forEach((user: User) => {
+        user.roles.forEach(role => {
+          if(role.name == 'admin') {
+            this.usersList.push({user: user,isAdmin: true});
+          } else {
+            this.usersList.push({user: user, isAdmin: false});
+          }
+        })
+      });
+    });
+
+    
+
+    
+    
   }
 
   ngOnInit(): void {
 
-    //Recherche du tous les utilisateurs et de leurs rôles
-    this._userService.getUsers().subscribe((datas) => {
-      console.log('users', datas);
-      this.usersList = datas;
-    });
+    
 
-    this.ToggleForm.get("formControlAdmin").valueChanges.subscribe({
-      next: (value: any) => {
-        console.log("ToggleForm value of slideMe changed", value);
-      }
-    });
+    
+
+
+    // console.log(this.usersList);
+    // let slides = document.getElementsByClassName('mat-slide-toggle');
+    // console.log(slides);
+
+    // for(let i = 0; i < slides.length; i++) {
+    //   console.log('for');
+    //   let slide = slides[i];
+    //   console.log(slide);
+    // }
+    
   }
 
-  isSliceChecked(event: MatSlideToggleChange, user: User) {
+  ngAfterViewInit(): void {
 
-    //création Form
-    let formControl = new FormControl();
+    let slide = document.getElementById('isAdminToggle_2');
+          console.log(slide);
+
+
+  }
+
+  BeforeUnloadEvent() {
+
+
+  }
+
+  
+
+  isSliceChecked(event: MatSlideToggleChange, user: User) {
     
     var value = '';
     const id = user.id;
@@ -102,10 +137,11 @@ export class UsersComponent implements OnInit {
     } else {
       value = 'user';
     }
-     
+    
+    //nom du case pour le switch dans le backend
     const name = 'role'
 
-    this._userService.updateDataUser({ id, name, value}).then(result => {
+    this._userService.updateDataUser({ id, name, value}).then(() => {
         console.log('mise à jour du role OK');
     })
     .catch(error => {
@@ -113,19 +149,6 @@ export class UsersComponent implements OnInit {
       this._handler.handleError({ error: { message: 'Un problème est survenue lors de la mise à jour du role' }, status: error, message: error });
       
     })
-
-    // user.roles.forEach(role => {
-    //   if(role.name == 'admin') {
-    //     console.log('l\'utilisateur est admin');
-    //   }
-      
-    // });
-
-    console.log('user', user);
-    console.log('checked', event.checked);
-
-    // let element = document.getElementById("isAdminToggle_"+user.id) as HTMLFormElement;
-    // console.log('element', element);
    
   } 
 
@@ -133,7 +156,6 @@ export class UsersComponent implements OnInit {
 
     //Supprime l'utilisateur sélectionné et affiche le snackbar pour information
     //de la suppression
-    console.log(user);
 
     //récupération de l'id par l'id du bouton delete()
     const target = event.target as HTMLElement;
@@ -175,10 +197,10 @@ export class UsersComponent implements OnInit {
               });
 
               //Suppression de l'utilisateur de UsersList pour remettre à jour la view
-              const index = this.usersList.indexOf(user, 0);
-              if (index > -1) {
-                this.usersList.splice(index, 1);
-              }
+              // const index = this.usersList.indexOf(user, 0);
+              // if (index > -1) {
+              //   this.usersList.splice(index, 1);
+              // }
               
             }
               
@@ -186,11 +208,25 @@ export class UsersComponent implements OnInit {
 
   }
 
-  onAdminToggle(event: any) {
+  getRoleAdmin(user: User, slide: any) {
 
-    console.log('change');
-    const target = event.target as HTMLElement;
-    console.log(target);
+    console.log(slide);
+    
+    user.roles.forEach(role => {
+      console.log('role', role);
+      if(role.name == "admin") {
+        slide.checked = true;
+        // this.ToggleForm.get
+        // console.log(true);
+        // return true;
+      } else {
+        slide.checked = false;
+      }
+      // return false;
+    });
+
+    return false;
+
   }
 
 }
