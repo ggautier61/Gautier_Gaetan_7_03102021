@@ -67,6 +67,7 @@ app.use(express.static('images'));
 //configuration des routes de bases
 require('./routes/auth.routes') (app);
 require('./routes/user.routes') (app);
+require('./routes/news.routes') (app);
 // app.use('/api/auth', authRoutes);
 // app.use('/api/test', userRoutes);
 

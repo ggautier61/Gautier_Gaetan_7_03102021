@@ -30,6 +30,7 @@ db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.news = require("../models/news.model")(sequelize, Sequelize);
 db.newscomment = require("../models/newsComment.model")(sequelize, Sequelize);
 
+//Creation des jointures tables Users et Roles
 db.role.belongsToMany(db.user, {
   through: "user_roles",
   foreignKey: "roleId",
@@ -42,8 +43,38 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId"
 });
 
+
+//Creation des jointures tables News et Comments
 db.news.hasMany(db.newscomment);
-db.newscomment.belongsTo(db.news);
+
+
+
+// user News
+// db.user.belongsTo(db.news, {
+//   foreignKey: "id"
+// });
+
+// db.user.hasMany(db.news, {
+//   foreignKey: 'user_id', 
+//   // primaryKey: true,
+  
+// });
+
+db.news.belongsTo(db.user);
+db.newscomment.belongsTo(db.user);
+
+// db.user.hasOne(db.news, {as: 'owner', primaryKey: true, otherKey: 'user_id'});
+// db.user.hasMany(db.news, {
+//   foreignKey: "user_id",
+//   as: "owner"
+// });
+// db.news.hasOne(db.user, {
+//   foreignKey: "owner_id",
+//   // as: 'owner'
+// });
+
+
+
 
 db.ROLES = ["user", "admin"];
 

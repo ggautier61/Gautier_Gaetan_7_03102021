@@ -5,35 +5,79 @@
       <div class="row mb-3 justify-content-center">
         <mat-card class="card-news__create d-flex">
           <mat-card-content>
-            <div class="row ms-1 me-1 flex-nowrap align-items-center">
-              <div mat-card-avatar class="avatar-image me-4"
-                style="background-image: url('{{ userConnected.imageURL }}')"></div>
-              <form class="d-flex flex-nowrap" [formGroup]="SendNewsForm" autocomplete="off">
-                <div class="row">
-                  <mat-form-field class="input-full-width">
-                    <input matInput type="text" formControlName="newsFeedInput" placeholder="Exprimez-vous">
+            <form [formGroup]="SendNewsForm" autocomplete="off">
+              <div class="row flex-nowrap ms-2 me-2">
+                <div class="col">
+                  <div mat-card-avatar class="avatar-image me-4" style="background-image: url('{{ userConnected.imageURL }}')"></div>
+                </div>
+                <div class="col">
+                  <mat-form-field>
+                    <input matInput type="text" formControlName="sendFeedInput" placeholder="Exprimez-vous">
                   </mat-form-field>
-                  <button class="btn" (click)="Send()">
-                    <mat-icon style="left: 2px;">send</mat-icon>
-                  </button>
                 </div>
-                <div class="row flex-column">
-                  <input type="file" name="image" accept="image/*" #imageInput (change)="onFileAdded($any($event).target.files)" style="display: none;">
-                  <img id="imageNews" class="img-fluid" [src]="imagePreview" alt="Photo News" style="object-fit: cover;" *ngIf="imagePreview">
-                  <button id="modifImage" (click)="selectFile()">
-                    <mat-icon class="center-icon">edit</mat-icon>
-                  </button>
+                <div class="col">
+                  <div matButton class="btn btn-send" (click)="Send()">
+                  <mat-icon>send</mat-icon>
                 </div>
+                </div>
+                
+              </div>
+              <div class="row">
+                <img id="imageNews" class="card-image" [src]="imagePreview" alt="Photo News" *ngIf="imagePreview">
+              </div>
+              <div class="row">
+                <input type="file" name="image" accept="image/*" #imageInput formControlName="sendFeedFile" (change)="onFileAdded($any($event).target.files)" style="display: none;">
+                <button class="btn-image" (click)="selectFile()">
+                  <mat-icon class="center-icon">photo_library</mat-icon>
+                </button>
+              </div>
+            </form>
+
+
+            <!-- <div class="row ms-1 me-1 flex-nowrap align-items-center">
+              <div class="row d-flex justity-content-start">
+                <div mat-card-avatar class="avatar-image me-4" style="background-image: url('{{ userConnected.imageURL }}')"></div>
+              </div>
+              <div class=""></div>
+              
+              
+                <div class="row">
+                  <div class="col">
+                    <div class="row flex-nowrap">
+                    <div class=col-8>
+                      <mat-form-field class="input-full-width">
+                        <input matInput type="text" formControlName="sendFeedInput" placeholder="Exprimez-vous">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                      <button matButton class="btn" (click)="Send()">
+                        <mat-icon style="left: 2px;">send</mat-icon>
+                      </button>
+                     </div>
+                  </div>
+                  <div class="row">
+                    <input type="file" name="image" accept="image/*" #imageInput formControlName="sendFeedFile"
+                      (change)="onFileAdded($any($event).target.files)" style="display: none;">
+                    <img id="imageNews" class="card-image" [src]="imagePreview" alt="Photo News"
+                      style="object-fit: cover;" *ngIf="imagePreview">
+                    <button id="btn-image" (click)="selectFile()">
+                      <mat-icon class="center-icon">photo_library</mat-icon>
+                    </button>
+                  </div>
+                  </div>
+                  
+                </div>
+
               </form>
-            </div>
+            </div> -->
           </mat-card-content>
         </mat-card>
       </div>
-      <div class="row mb-3 justify-content-center flex-column">
+      <div class="row mb-3 justify-content-center flex-column" *ngIf="newsList">
         <mat-card class="card-news" *ngFor="let new of newsList">
           <mat-card-header>
-            <div mat-card-avatar class="avatar-image" style="background-image: url('{{ new.user?.imageURL }}')"></div>
-            <mat-card-title>{{ new.user?.firstname}} {{ new.user?.lastname }}</mat-card-title>
+            <div mat-card-avatar class="avatar-image" style="background-image: url('{{ new.user.imageURL }}')"></div>
+            <mat-card-title>{{ new.user.firstname}} {{ new.user.lastname }}</mat-card-title>
           </mat-card-header>
 
           <mat-card-content>
@@ -43,25 +87,28 @@
             </div>
 
             <div class="ps-3 me-5">{{ new.message }}</div>
-            <div class="row m-3 flex-nowrap" *ngFor="let comment of new.comment">
-              <div mat-card-avatar class="avatar-image me-4"
-                style="background-image: url('{{ comment.owner?.imageURL }}')"></div>
-              <div class="row comment">
-                <div class="comment--name">{{ comment.owner?.firstname }} {{ comment.owner?.lastname }}</div>
-                <div>{{ comment.message }}</div>
+            <div *ngIf="new.comments">
+              <div class="row m-3 flex-nowrap" *ngFor="let comment of new.comments">
+                <div mat-card-avatar class="avatar-image me-4"
+                  style="background-image: url('{{ comment.user.imageURL }}')"></div>
+                <div class="row comment">
+                  <div class="comment--name">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
+                  <div>{{ comment.message }}</div>
+                </div>
               </div>
             </div>
+            
             <div class="row m-3 flex-nowrap pe-3">
               <div mat-card-avatar class="avatar-image me-4"
                 style="background-image: url('{{ userConnected.imageURL }}')"></div>
               <div class="row">
                 <form [formGroup]="NewsFeedForm" class="d-flex flex-nowrap">
                   <mat-form-field class="input-full-width">
-                    <input matInput type="text" formControlName="answerNewsInput" placeholder="Répondre">
+                    <input matInput type="text" formControlName="answerNewsInput" placeholder="Répondre" style="width: 100%;">
 
                   </mat-form-field>
-                  <button class="btn" (click)="Send()">
-                    <mat-icon style="left: 2px;">send</mat-icon>
+                  <button id="btn-answer-news_{{ new.id }}" class="btn" (click)="SendAnswer()">
+                    <mat-icon>send</mat-icon>
                   </button>
                 </form>
 
