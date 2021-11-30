@@ -8,6 +8,7 @@ module.exports = function(app) {
   // app.get("/api/news", newsCrtl.getNews);
 
   app.post("/api/create-news", multer, newsCrtl.postNews);
+  app.post("/api/comment", newsCrtl.postComment);
   app.get("/api/getAllNews", newsCrtl.getAllNews);
   // app.post("/api/comment", newsCrtl.postComment)
 

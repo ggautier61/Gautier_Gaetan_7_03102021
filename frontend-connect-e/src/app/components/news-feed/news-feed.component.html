@@ -107,8 +107,8 @@
                     <input matInput type="text" formControlName="answerNewsInput" placeholder="Répondre" style="width: 100%;">
 
                   </mat-form-field>
-                  <button id="btn-answer-news_{{ new.id }}" class="btn" (click)="SendAnswer()">
-                    <mat-icon>send</mat-icon>
+                  <button id="btnAnswerNews_{{ new.id }}" class="btn" (click)="SendAnswer($event)">
+                    <mat-icon id="iconBtnAnswerNews_{{ new.id }}">send</mat-icon>
                   </button>
                 </form>
 

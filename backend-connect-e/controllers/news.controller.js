@@ -40,6 +40,26 @@ exports.postNews = (req, res) => {
     });
 }
 
+exports.postComment = (req, res) => {
+    const body = req.body;
+    console.log(body);
+
+    NewsComments.create({
+        userId: body.userId,
+        message: body.message,
+        newsId: body.newsId
+    
+    })
+    .then(comment => {
+        console.log(comment);
+        res.status(201).send(comment);
+    })
+    .catch(err => {
+        res.status(400).send({ message: err.message });
+    });
+
+}
+
 exports.getAllNews = (req, res) => {
 
     News.findAll({ 

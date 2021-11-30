@@ -169,8 +169,30 @@ export class NewsFeedComponent implements OnInit {
     
   }
 
-  SendAnswer() {
-    
+  SendAnswer(event: Event) {
+
+    const target = event.target as HTMLElement;
+
+    if(target.id.includes('btnAnswerNews') || target.id.includes('iconBtnAnswerNews')) {
+
+       const newsId = target.id.split('_')[1];
+
+      const comment = {
+        message : this.NewsFeedForm.get('answerNewsInput').value,
+        newsId: newsId,
+        userId: this.userConnected.id
+      }
+
+      this._newsService.postNewsComment(comment).then((result) => {
+        this._newsService.getAllNews().subscribe((newslist) => {
+          console.log('newslist', newslist);
+          this.newsList = newslist;
+          this.NewsFeedForm.get('answerNewsInput').setValue('');
+        });
+      },
+      (error) =>  this._handler.handleError(error)
+      )
+    } 
   }
 
   onFileAdded(e: FileList) {
