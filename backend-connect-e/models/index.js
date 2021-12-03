@@ -45,35 +45,12 @@ db.user.belongsToMany(db.role, {
 
 
 //Creation des jointures tables News et Comments
-db.news.hasMany(db.newscomment);
-
-
-
-// user News
-// db.user.belongsTo(db.news, {
-//   foreignKey: "id"
-// });
-
-// db.user.hasMany(db.news, {
-//   foreignKey: 'user_id', 
-//   // primaryKey: true,
-  
-// });
+db.news.hasMany(db.newscomment, {
+  onDelete: "CASCADE"
+});
 
 db.news.belongsTo(db.user);
 db.newscomment.belongsTo(db.user);
-
-// db.user.hasOne(db.news, {as: 'owner', primaryKey: true, otherKey: 'user_id'});
-// db.user.hasMany(db.news, {
-//   foreignKey: "user_id",
-//   as: "owner"
-// });
-// db.news.hasOne(db.user, {
-//   foreignKey: "owner_id",
-//   // as: 'owner'
-// });
-
-
 
 
 db.ROLES = ["user", "admin"];

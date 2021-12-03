@@ -10,6 +10,7 @@ module.exports = function(app) {
   app.post("/api/create-news", multer, newsCrtl.postNews);
   app.post("/api/comment", newsCrtl.postComment);
   app.get("/api/getAllNews", newsCrtl.getAllNews);
-  // app.post("/api/comment", newsCrtl.postComment)
+  app.delete("/api/news/:id", newsCrtl.deleteNews);
+  app.delete("/api/comment/:id", newsCrtl.deleteComment);
 
 };

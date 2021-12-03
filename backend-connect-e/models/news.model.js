@@ -13,7 +13,8 @@ module.exports = (sequelize, Sequelize) => {
       //   primaryKey: true
       // },
       message: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        onDelete: 'cascade'
       },
       imageURL: {
         type: Sequelize.STRING

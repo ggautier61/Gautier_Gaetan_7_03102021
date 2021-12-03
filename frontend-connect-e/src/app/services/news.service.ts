@@ -59,4 +59,12 @@ export class NewsService {
 
     return this.http.get(this.apiURL + 'getAllNews');
   }
+
+  deleteNews(id: string) {
+    return this.http.delete(this.apiURL + 'news/' + id);
+  }
+
+  deleteComment(id: string) {
+    return this.http.delete(this.apiURL + 'comment/' + id);
+  }
 }

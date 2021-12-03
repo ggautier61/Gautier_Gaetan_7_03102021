@@ -1,6 +1,7 @@
 import { TypeofExpr } from '@angular/compiler';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { News } from 'src/app/models/news.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
@@ -82,11 +83,6 @@ export class NewsFeedComponent implements OnInit {
 
   uploadFile: File | any;
   isAdmin: boolean = false;
-
-  
-  
-
-  
   
   constructor(private formBuilder: FormBuilder,
               private _tokenStorageService: TokenStorageService,
@@ -161,6 +157,14 @@ export class NewsFeedComponent implements OnInit {
     this._newsService.postNews(news, this.uploadFile).then(data => {
       console.log(data);
       //if data is true reload de liste of news
+      this._newsService.getAllNews().subscribe((newslist) => {
+        this.newsList = newslist;
+        this.SendNewsForm.get('sendFeedInput').setValue('');
+        this.SendNewsForm.get('sendFeedFile').setValue(null);
+        this.uploadFile = null;
+        // this.imageInput = '';
+        this.imagePreview = '';
+      });
 
 
     },
@@ -211,6 +215,32 @@ export class NewsFeedComponent implements OnInit {
 
   selectFile(): void {
     this.imageInput.nativeElement.click();
+  }
+
+  deleteComment(idcomment: string) {
+
+    this._newsService.deleteComment(idcomment).subscribe((response) => {
+      console.log(response);
+      if(response == true) {
+        this._newsService.getAllNews().subscribe((newslist) => {
+          this.newsList = newslist;
+        });
+      }
+    },
+    (error) => {
+      this._handler.handleError(error);
+    })
+    
+  }
+
+  deleteNews(idnews: string) {
+    this._newsService.deleteNews(idnews).subscribe((response) => {
+      if(response == true) {
+        this._newsService.getAllNews().subscribe((newslist) => {
+          this.newsList = newslist;
+        });
+      }
+    })
   }
 
 }
