@@ -16,7 +16,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./news-feed.component.scss']
 })
 export class NewsFeedComponent implements OnInit {
-  
+
   @ViewChild('imageInput')
   imageInput: ElementRef | any;
   newsList: Array<News> = [];
@@ -83,47 +83,47 @@ export class NewsFeedComponent implements OnInit {
 
   uploadFile: File | any;
   isAdmin: boolean = false;
-  
+
   constructor(private formBuilder: FormBuilder,
-              private _tokenStorageService: TokenStorageService,
-              private _authService: AuthService,
-              private _userService: UserService,
-              private _newsService: NewsService,
-              private _handler: HandlerErrorService) {
-                
-          this._userService.connectedUser$.subscribe(user => {
-            user.roles.forEach(role => {
-      
-              if(role.name == 'admin') {
-                this._userService.isAdmin$.next(true);
-              } else {
-                this._userService.isAdmin$.next(false);
-              }
-              
-            });
-          });
-      
-          this._userService.isAdmin$.subscribe(admin => {
-            this.isAdmin = admin;
-          });
+    private _tokenStorageService: TokenStorageService,
+    private _authService: AuthService,
+    private _userService: UserService,
+    private _newsService: NewsService,
+    private _handler: HandlerErrorService) {
 
-          this._newsService.getAllNews().subscribe((newslist) => {
+    this._userService.connectedUser$.subscribe(user => {
+      user.roles.forEach(role => {
 
-            console.log('newslist', newslist);
-            this.newsList = newslist;
-            // newslist?.forEach((news: News) => {
-            //   this.newsList.push(news);
-            // //   user.roles.forEach(role => {
-            // //     if(role.name == 'admin') {
-            // //       this.usersList.push({user: user,isAdmin: true});
-            // //     } else {
-            // //       this.usersList.push({user: user, isAdmin: false});
-            // //     }
-            // //   })
-            // });
-          });
+        if (role.name == 'admin') {
+          this._userService.isAdmin$.next(true);
+        } else {
+          this._userService.isAdmin$.next(false);
+        }
 
-    
+      });
+    });
+
+    this._userService.isAdmin$.subscribe(admin => {
+      this.isAdmin = admin;
+    });
+
+    this._newsService.getAllNews().subscribe((newslist) => {
+
+      console.log('newslist', newslist);
+      this.newsList = newslist;
+      // newslist?.forEach((news: News) => {
+      //   this.newsList.push(news);
+      // //   user.roles.forEach(role => {
+      // //     if(role.name == 'admin') {
+      // //       this.usersList.push({user: user,isAdmin: true});
+      // //     } else {
+      // //       this.usersList.push({user: user, isAdmin: false});
+      // //     }
+      // //   })
+      // });
+    });
+
+
   }
 
   ngOnInit(): void {
@@ -134,13 +134,13 @@ export class NewsFeedComponent implements OnInit {
         this.userConnected = this._userService.transformUser(user);
       });
     }
-    
+
     this.NewsFeedForm = this.formBuilder.group({
       answerNewsInput: ['']
     });
 
     this.SendNewsForm = this.formBuilder.group({
-      sendFeedInput: ['', Validators.required],
+      sendFeedInput: [''],
       sendFeedFile: [null]
     });
   }
@@ -152,37 +152,32 @@ export class NewsFeedComponent implements OnInit {
       message: this.SendNewsForm.get('sendFeedInput').value
     }
 
-    
-
     this._newsService.postNews(news, this.uploadFile).then(data => {
-      console.log(data);
-      //if data is true reload de liste of news
-      this._newsService.getAllNews().subscribe((newslist) => {
-        this.newsList = newslist;
-        this.SendNewsForm.get('sendFeedInput').setValue('');
-        this.SendNewsForm.get('sendFeedFile').setValue(null);
-        this.uploadFile = null;
-        // this.imageInput = '';
-        this.imagePreview = '';
-      });
-
-
+      if (data) {
+        this._newsService.getAllNews().subscribe((newslist) => {
+          this.newsList = newslist;
+          this.SendNewsForm.get('sendFeedInput').setValue('');
+          this.SendNewsForm.get('sendFeedFile').setValue(null);
+          this.uploadFile = null;
+          this.imagePreview = '';
+        });
+      }
     },
-    (error) =>  this._handler.handleError(error)
+      (error) => this._handler.handleError(error)
     )
-    
+
   }
 
   SendAnswer(event: Event) {
 
     const target = event.target as HTMLElement;
 
-    if(target.id.includes('btnAnswerNews') || target.id.includes('iconBtnAnswerNews')) {
+    if (target.id.includes('btnAnswerNews') || target.id.includes('iconBtnAnswerNews')) {
 
-       const newsId = target.id.split('_')[1];
+      const newsId = target.id.split('_')[1];
 
       const comment = {
-        message : this.NewsFeedForm.get('answerNewsInput').value,
+        message: this.NewsFeedForm.get('answerNewsInput').value,
         newsId: newsId,
         userId: this.userConnected.id
       }
@@ -194,15 +189,15 @@ export class NewsFeedComponent implements OnInit {
           this.NewsFeedForm.get('answerNewsInput').setValue('');
         });
       },
-      (error) =>  this._handler.handleError(error)
+        (error) => this._handler.handleError(error)
       )
-    } 
+    }
   }
 
   onFileAdded(e: FileList) {
 
     const file: File = e[0];
-  
+
     // File Preview
     const reader = new FileReader();
     reader.onload = () => {
@@ -221,21 +216,22 @@ export class NewsFeedComponent implements OnInit {
 
     this._newsService.deleteComment(idcomment).subscribe((response) => {
       console.log(response);
-      if(response == true) {
+      if (response == true) {
         this._newsService.getAllNews().subscribe((newslist) => {
           this.newsList = newslist;
         });
       }
     },
-    (error) => {
-      this._handler.handleError(error);
-    })
-    
+      (error) => {
+        this._handler.handleError(error);
+      })
+
   }
 
   deleteNews(idnews: string) {
-    this._newsService.deleteNews(idnews).subscribe((response) => {
-      if(response == true) {
+    this._newsService.deleteNews(idnews).subscribe((response: any) => {
+      console.log(response.message);
+      if (response.deleted == true) {
         this._newsService.getAllNews().subscribe((newslist) => {
           this.newsList = newslist;
         });

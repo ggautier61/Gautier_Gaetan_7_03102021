@@ -1,4 +1,6 @@
 const db = require("../models");
+const fs = require('fs');
+
 const News = db.news;
 const NewsComments = db.newscomment;
 const Users = db.user;
@@ -15,14 +17,11 @@ exports.postNews = (req, res) => {
     // Save News to Database
 
     var body = req.body;
-    // console.log(JSON.stringify(body.news.stringify()));
-    console.log(body);
 
     urlFile = '';
 
     if(req.file) {
         urlFile = req.protocol + '://' + req.get('host') + '/images/' + req.file.filename;
-        console.log(urlFile);
     } 
     
     News.create({
@@ -32,7 +31,6 @@ exports.postNews = (req, res) => {
     
     })
     .then(news => {
-        console.log(news);
         res.status(201).send(news);
     })
     .catch(err => {
@@ -63,47 +61,44 @@ exports.postComment = (req, res) => {
 exports.deleteNews = function (req,res) {
     
     const id = req.params.id;
+    let filename = '';
 
-    News.destroy({ where: { id: id }}).then(response => {
-        res.status(200).send(true);
+    News.findByPk(id).then(news => {
+
+        if(news.imageURL != '') {
+        filename = news.imageURL.split('/images/')[1];
+        }
+
+        news.destroy({ where: { id: id }}).then(() => {
+            console.log('filename', filename);
+            if(filename != '') {
+                console.log('on passe ici');
+                fs.unlinkSync(`images/${filename}`); 
+            }
+            res.status(200).send({ deleted: true, message: 'La publication et tous les commentaires ont été supprimés !' });
+        })
+        .catch(err => {
+            res.status(500).send({ value: false, message: err.message });
+        });
+        
     })
     .catch(err => {
         res.status(500).send({ value: false, message: err.message });
     });
     
-
-
-    // News.findByPk(id, { include: [{ 
-    //     model: NewsComments
-    //     }]}).then(news => {
-    
-    //     news.destroy().then(response => {
-    //         res.status(200).send(true);
-    //     })
-    //     .catch(err => {
-    //         res.status(500).send({ value: false, message: err.message });
-    //     });
-    // })
-    // .catch(err => {
-    //     res.status(500).send({ value: false, message: err.message });
-    // });
 }
 
 exports.deleteComment = function (req,res) {
-    console.log(req.params);
+
     const id = req.params.id;
-    NewsComments.findByPk(id).then(comment => {
-        comment.destroy().then(response => {
-            console.log(response);
-            res.status(200).send(true);
-        })
-        .catch(err => {
-            res.status(500).send({ value: true, message: err.message });
-        });
-  })
-  .catch(err => {
-    res.status(500).send({ value: false, message: err.message });
-  });
+
+    NewsComments.destroy({ where: { id: id }}).then(response => {
+        res.status(200).send({ deleted: true, message: 'Commentaire supprimé !'});
+    })
+    .catch(err => {
+        res.status(500).send({ value: false, message: err.message });
+    });
+
 }
 
 exports.getAllNews = (req, res) => {
