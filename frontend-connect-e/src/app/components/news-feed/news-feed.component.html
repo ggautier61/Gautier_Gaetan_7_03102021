@@ -57,6 +57,7 @@
             <div class="image-container mt-3 mb-3">
               <img class="card-image" src="{{ new.imageURL }}">
               <i class="heart fas fa-heart" (click)="onLike(new.id)"></i>
+              <i class="heart far fa-heart" (click)="onLike(new.id)" *ngIf=""></i>
             </div>
 
             <div class="ps-3 me-5">{{ new.message }}</div>
