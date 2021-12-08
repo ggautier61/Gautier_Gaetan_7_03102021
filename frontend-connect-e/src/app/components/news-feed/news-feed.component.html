@@ -1,32 +1,37 @@
 <div class="container pt-5">
-  <div class="row">
+  <div class="row" style="max-width: 650px;">
     <div class="col">
 
       <div class="row mb-3 justify-content-center">
         <mat-card class="card-news__create d-flex">
-          <mat-card-content>
+          <mat-card-content class="w-100">
             <form [formGroup]="SendNewsForm" autocomplete="off">
-              <div class="row flex-nowrap ms-2 me-2">
-                <div class="col">
-                  <div mat-card-avatar class="avatar-image me-4" style="background-image: url('{{ userConnected.imageURL }}')"></div>
+              <div class="row ms-2 me-2">
+                <div class="col" style="max-width: max-content;">
+                  <div mat-card-avatar class="avatar-image"
+                    style="background-image: url('{{ userConnected.imageURL }}')"></div>
                 </div>
                 <div class="col">
-                  <mat-form-field>
-                    <input matInput type="text" formControlName="sendFeedInput" placeholder="Exprimez-vous">
-                  </mat-form-field>
+                  <div class="row flex-nowrap w-100">
+                    <mat-form-field style="width: 93%;">
+                      <input matInput type="text" formControlName="sendFeedInput" placeholder="Exprimez-vous">
+                    </mat-form-field>
+                    <div matButton class="btn btn-send" (click)="Send()">
+                      <mat-icon>send</mat-icon>
+                    </div>
+                  </div>
                 </div>
-                <div class="col">
-                  <div matButton class="btn btn-send" (click)="Send()">
-                  <mat-icon>send</mat-icon>
+               
+
+              </div>
+              <div class="row mb-3">
+                <div class="image-container">
+                  <img id="imageNews" class="card-image" [src]="imagePreview" alt="Photo News" *ngIf="imagePreview">
                 </div>
-                </div>
-                
               </div>
               <div class="row">
-                <img id="imageNews" class="card-image" [src]="imagePreview" alt="Photo News" *ngIf="imagePreview">
-              </div>
-              <div class="row">
-                <input type="file" name="image" accept="image/*" #imageInput formControlName="sendFeedFile" (change)="onFileAdded($any($event).target.files)" style="display: none;">
+                <input type="file" name="image" accept="image/*" #imageInput formControlName="sendFeedFile"
+                  (change)="onFileAdded($any($event).target.files)" style="display: none;">
                 <button class="btn-image" (click)="selectFile()">
                   <mat-icon class="center-icon">photo_library</mat-icon>
                 </button>
@@ -34,42 +39,6 @@
             </form>
 
 
-            <!-- <div class="row ms-1 me-1 flex-nowrap align-items-center">
-              <div class="row d-flex justity-content-start">
-                <div mat-card-avatar class="avatar-image me-4" style="background-image: url('{{ userConnected.imageURL }}')"></div>
-              </div>
-              <div class=""></div>
-              
-              
-                <div class="row">
-                  <div class="col">
-                    <div class="row flex-nowrap">
-                    <div class=col-8>
-                      <mat-form-field class="input-full-width">
-                        <input matInput type="text" formControlName="sendFeedInput" placeholder="Exprimez-vous">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-4">
-                      <button matButton class="btn" (click)="Send()">
-                        <mat-icon style="left: 2px;">send</mat-icon>
-                      </button>
-                     </div>
-                  </div>
-                  <div class="row">
-                    <input type="file" name="image" accept="image/*" #imageInput formControlName="sendFeedFile"
-                      (change)="onFileAdded($any($event).target.files)" style="display: none;">
-                    <img id="imageNews" class="card-image" [src]="imagePreview" alt="Photo News"
-                      style="object-fit: cover;" *ngIf="imagePreview">
-                    <button id="btn-image" (click)="selectFile()">
-                      <mat-icon class="center-icon">photo_library</mat-icon>
-                    </button>
-                  </div>
-                  </div>
-                  
-                </div>
-
-              </form>
-            </div> -->
           </mat-card-content>
         </mat-card>
       </div>
@@ -78,15 +47,16 @@
           <mat-card-header>
             <div mat-card-avatar class="avatar-image" style="background-image: url('{{ new.user.imageURL }}')"></div>
             <mat-card-title>{{ new.user.firstname}} {{ new.user.lastname }}</mat-card-title>
-            <button class="btn-delete btn-delete_news" title="Supprimer news" (click)="deleteNews(new.id)" *ngIf="isAdmin || new.user.id == userConnected.id">
+            <button class="btn-delete btn-delete_news" title="Supprimer news" (click)="deleteNews(new.id)"
+              *ngIf="isAdmin || new.user.id == userConnected.id">
               <mat-icon color="warn">delete</mat-icon>
             </button>
           </mat-card-header>
 
           <mat-card-content>
-            <div class="image-container">
-              <img mat-card-image class="card-image" src="{{ new.imageURL }}">
-              <i class="heart far fa-heart"></i>
+            <div class="image-container mt-3 mb-3">
+              <img class="card-image" src="{{ new.imageURL }}">
+              <i class="heart fas fa-heart" (click)="onLike(new.id)"></i>
             </div>
 
             <div class="ps-3 me-5">{{ new.message }}</div>
@@ -98,19 +68,21 @@
                   <div class="comment--name">{{ comment.user.firstname }} {{ comment.user.lastname }}</div>
                   <div>{{ comment.message }}</div>
                 </div>
-                <button class="btn-delete btn-delete_comment" title="Supprimer commentaire" (click)="deleteComment(comment.id)" *ngIf="isAdmin || userConnected.id == comment.user.id">
+                <button class="btn-delete btn-delete_comment" title="Supprimer commentaire"
+                  (click)="deleteComment(comment.id)" *ngIf="isAdmin || userConnected.id == comment.user.id">
                   <mat-icon color="warn">delete</mat-icon>
                 </button>
               </div>
             </div>
-            
+
             <div class="row m-3 flex-nowrap pe-3">
               <div mat-card-avatar class="avatar-image me-4"
                 style="background-image: url('{{ userConnected.imageURL }}')"></div>
               <div class="row">
                 <form [formGroup]="NewsFeedForm" class="d-flex flex-nowrap">
                   <mat-form-field class="input-full-width">
-                    <input matInput type="text" formControlName="answerNewsInput" placeholder="Répondre" style="width: 100%;">
+                    <input matInput type="text" formControlName="answerNewsInput" placeholder="Répondre"
+                      style="width: 100%;">
 
                   </mat-form-field>
                   <button id="btnAnswerNews_{{ new.id }}" class="btn" (click)="SendAnswer($event)">

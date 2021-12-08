@@ -4,6 +4,7 @@ const fs = require('fs');
 const News = db.news;
 const NewsComments = db.newscomment;
 const Users = db.user;
+const Likes = db.likes;
 
 // exports.getNews = function (req, res, next) { 
 
@@ -115,6 +116,9 @@ exports.getAllNews = (req, res) => {
                     model: Users,
                     attributes: ['id', 'firstname', 'lastname', 'imageURL']
                 } 
+            },
+            {
+                model: Likes
             }
         ]
         
@@ -124,4 +128,8 @@ exports.getAllNews = (req, res) => {
 
 
 
+}
+
+exports.likes = (req, res) => {
+    
 }

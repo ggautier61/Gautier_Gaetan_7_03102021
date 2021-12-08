@@ -9,5 +9,6 @@ export class News {
     // user_id: string = '';
     user: User = new User();    
     comments: Array<NewsComment> = [];
+    likes: Array<User> = [];
 
 }

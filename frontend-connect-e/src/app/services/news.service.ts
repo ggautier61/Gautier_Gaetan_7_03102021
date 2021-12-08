@@ -1,4 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LIFECYCLE_HOOKS_VALUES } from '@angular/compiler/src/lifecycle_reflector';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { News } from "../models/news.model"
@@ -66,5 +67,9 @@ export class NewsService {
 
   deleteComment(id: string) {
     return this.http.delete(this.apiURL + 'comment/' + id);
+  }
+
+  likeNews(id: string, likeValue: boolean ) {
+    // return this.http.post(this.apiURL + 'likes/' + )
   }
 }

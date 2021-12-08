@@ -25,10 +25,12 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.news = require("../models/news.model")(sequelize, Sequelize);
+db.likes = require("./likes.model")(sequelize, Sequelize);
 db.newscomment = require("../models/newsComment.model")(sequelize, Sequelize);
+
 
 //Creation des jointures tables Users et Roles
 db.role.belongsToMany(db.user, {
@@ -51,6 +53,12 @@ db.news.hasMany(db.newscomment, {
 
 db.news.belongsTo(db.user);
 db.newscomment.belongsTo(db.user);
+
+db.news.hasMany(db.likes, {
+  onDelete: "CASCADE"
+});
+
+db.likes.belongsTo(db.user);
 
 
 db.ROLES = ["user", "admin"];

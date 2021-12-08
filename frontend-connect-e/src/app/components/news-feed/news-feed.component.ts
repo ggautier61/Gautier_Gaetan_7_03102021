@@ -111,16 +111,6 @@ export class NewsFeedComponent implements OnInit {
 
       console.log('newslist', newslist);
       this.newsList = newslist;
-      // newslist?.forEach((news: News) => {
-      //   this.newsList.push(news);
-      // //   user.roles.forEach(role => {
-      // //     if(role.name == 'admin') {
-      // //       this.usersList.push({user: user,isAdmin: true});
-      // //     } else {
-      // //       this.usersList.push({user: user, isAdmin: false});
-      // //     }
-      // //   })
-      // });
     });
 
 
@@ -182,9 +172,8 @@ export class NewsFeedComponent implements OnInit {
         userId: this.userConnected.id
       }
 
-      this._newsService.postNewsComment(comment).then((result) => {
+      this._newsService.postNewsComment(comment).then(() => {
         this._newsService.getAllNews().subscribe((newslist) => {
-          console.log('newslist', newslist);
           this.newsList = newslist;
           this.NewsFeedForm.get('answerNewsInput').setValue('');
         });
@@ -237,6 +226,16 @@ export class NewsFeedComponent implements OnInit {
         });
       }
     })
+  }
+
+  onLike(idnews: string) {
+
+
+
+      // this._newsService.likeNews(idnews).subscribe((result) => {
+      //   console.log(result);
+      // })  
+
   }
 
 }
